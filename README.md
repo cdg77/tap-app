@@ -21,3 +21,7 @@ To release a new build, follow these steps:
 
 Rollback
 	git push heroku 0.0.0:master -f
+
+Migrations must be run on Heroku:
+	heroku run bash 
+will open a ssh 
