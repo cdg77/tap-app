@@ -22,6 +22,8 @@ To release a new build, follow these steps:
 Rollback
 	git push heroku 0.0.0:master -f
 
-Migrations must be run on Heroku:
+After writing a new migration, run it and check the DB to see the migration worked as expected before you commit. Then roll it back to make sure the roll back works. Then run it again and commit. 
+
+Migrations must be also be run on Heroku:
 	heroku run bash 
 will open a ssh 
