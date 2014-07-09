@@ -30,16 +30,16 @@ var requestFixture = function(fixture) {
 };
 
 describe('server', function() {
-  it('will get no pours for tap list when DB is empty', function() {
+  it.skip('will get no pours for tap list when DB is empty', function() {
 
   });
-  it('will get all pours for tap list when DB is not empty', function() {
+  it.skip('will get all pours for tap list when DB is not empty', function() {
 
   });
-  it('will post a pour to the DB', function() {
+  it.skip('will post a pour to the DB', function() {
 
   });
-  it('will timestamp every pour automatically', function() {
+  it.skip('will timestamp every pour automatically', function() {
 
   });
 });
