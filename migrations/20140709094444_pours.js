@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('beerName').notNullable();
     table.string('venue').notNullable();
     table.integer('beerRating');
-    table.timestamp('timeOfPour');.notNullable();
+    table.timestamp('timeOfPour').notNullable();
   });
 };
 
