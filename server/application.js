@@ -10,11 +10,12 @@ var favicon = require('serve-favicon');
 var config = require('./config');
 
 var app = express();
-var models = require('./models'),
-    User = models.User;
-
-var app = express();
 var api = express.Router();
+
+var models = require('./models'),
+    User = models.User,
+    Pours = models.Pours,
+    Token = models.Token;
 
 var admit = require('admit-one')('bookshelf', {
   bookshelf: { modelClass: User }
@@ -31,6 +32,14 @@ api.post('/users', admit.create, function(req, res) {
 api.post('/sessions', admit.authenticate, function(req, res) {
   // user accessible via req.auth
   res.json({ session: req.auth.user });
+});
+
+api.get('/pours', function(req, res) {
+  Pours.fetchAll().then(function(collection) {
+    res.json({
+      'pours': collection.toJSON()
+    });
+  }).done();
 });
 
 // all routes defined from here on will require authorization

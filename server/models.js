@@ -5,7 +5,8 @@ var knexConfig = require('./config/knexfile')[config.env];
 var knex = require('knex')(knexConfig);
 var bookshelf = require('bookshelf')(knex);
 
-var User, Token;
+var User, Token, Pours;
+
 User = bookshelf.Model.extend({
   tokens: function() {
     return this.hasMany(Token);
@@ -19,8 +20,13 @@ Token = bookshelf.Model.extend({
   tableName: 'tokens'
 });
 
+Pours = bookshelf.Model.extend({
+  tableName: 'Pours'
+});
+
 module.exports = {
   User: User,
-  Token: Token
+  Token: Token,
+  Pours: Pours
 };
 
