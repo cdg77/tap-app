@@ -5,11 +5,12 @@ describe('server', function() {
 
   });
   it('will get all pours for tap list when DB is not empty', function() {
-  	
+
   });
   it('will post a pour to the DB', function() {
-  	
+
   });
+  it('will timestamp every pour automatically', function() {
 
+  });
 });
-
