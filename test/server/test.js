@@ -15,6 +15,7 @@ var port = 383273;
 var baseURL = util.format('http://localhost:%d', port);
 
 var Pour = models.Pour;
+var User = models.User;
 
 var expect = require('chai').expect;
 
@@ -44,7 +45,10 @@ describe('server', function() {
   after(function(done) { this.server.close(done); });
 
   afterEach(function(done) {
-    knex('pours').del().then(function() { done(); }, done);
+    Promise.resolve() // start promise sequence
+    .then(function() { return knex('pours').del(); })
+    .then(function() { return knex('users').del(); })
+    .then(function() { done(); }, done);
   });
 
   it.skip('will get no pours for tap list when DB is empty', function(done) {
@@ -59,14 +63,26 @@ describe('server', function() {
   it.skip('will get all pours for tap list when DB is not empty', function(done) {
     var fixture = __fixture('pours-three');
 
-    var savePromises = fixture.response.json.pours.map(function(pours) {
-      pours = _.omit(pours, 'id');
-      return Pour.forge(pours).save();
-    });
+    var createUser = function() {
+      return User.forge({
+        username: 'sam',
+        passwordDigest: 'fakeDigest'
+      }).save();
+    };
 
-    Promise.all(savePromises).then(function() {
-      return requestFixture(fixture);
-    })
+    var createPours = function(user) {
+      var promises = fixture.response.json.pours.map(function(pour) {
+        pour = _.omit(pour, 'id');
+        pour.userID = user.id;
+        return Pour.forge(pour).save();
+      });
+      return Promise.all(promises);
+    };
+
+    Promise.resolve() // start promise sequence
+    .then(function(user) { return createUser(); })
+    .then(function(user) { return createPours(user); })
+    .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
       expect(omitID(json)).to.eql(omitID(fixture.response.json));

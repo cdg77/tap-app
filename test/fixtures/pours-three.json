@@ -13,23 +13,23 @@
         "brewery": "Everybody's Brewing",
         "beerName": "Lil Sis",
         "venue": "M Bar",
-        "beerRating": 2.7,
+        "beerRating": 3,
         "timeOfPour": 1404931268149
         }, {
         "id": 2,
         "brewery": "Laurelwood Brewery",
         "beerName": "Green Mammoth",
         "venue": "Bailey's Taproom",
-        "beerRating": 3.6,
+        "beerRating": 4,
         "timeOfPour": 1404931268147
         }, {
         "id": 3,
         "brewery": "Full Sail Brewery",
         "beerName": "26 Anniversary Cascade Pilsner",
         "venue": "Apex",
-        "beerRating": 3.5,
+        "beerRating": 4,
         "timeOfPour": 1404931268144
-        }]
+      }]
     }
   }
 }
