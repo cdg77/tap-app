@@ -49,6 +49,13 @@ var sortPoursJSON = function(json) {
 
 
 describe('server', function() {
+  var createUser = function() {
+    return User.forge({
+      username: 'sam',
+      passwordDigest: 'fakeDigest'
+    }).save();
+  };
+
   before(function(done) { this.server = app.listen(port, function() { done(); }); });
   after(function(done) { this.server.close(done); });
 
@@ -71,13 +78,6 @@ describe('server', function() {
   it('will get all pours for tap list when DB is not empty', function(done) {
     var fixture = __fixture('pours-three');
 
-    var createUser = function() {
-      return User.forge({
-        username: 'sam',
-        passwordDigest: 'fakeDigest'
-      }).save();
-    };
-
     var createPours = function(user) {
       var promises = fixture.response.json.pours.map(function(pour) {
         pour = _.omit(pour, 'id');
@@ -98,11 +98,17 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
-  it.skip('will post a pour to the DB', function() {
+  it.skip('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
-  });
-
-  it.skip('will timestamp every pour automatically', function() {
-
+    Promise.resolve()
+    .then(function(user) { return createUser(); })
+    .then(function(user) { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      console.log(body);
+      var json = JSON.parse(body);
+      expect(omitPourProperties(sortPoursJSON(json))).to.eql(
+        Pour.fetchAll());
+    })
+    .done(function() { done(); }, done);
   });
 });
