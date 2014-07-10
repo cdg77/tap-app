@@ -30,10 +30,10 @@ var requestFixture = function(fixture) {
   return requestAsync(requestOptions);
 };
 
-var omitID = function(target) {
+var omitIDAndUserID = function(target) {
   return {
     pours: target.pours.map(function(pour) {
-      return _.omit(pour, 'id');
+      return _.omit(pour, 'id', 'userID');
     })
   };
 };
@@ -60,7 +60,7 @@ describe('server', function() {
     .done(function() { done(); }, done);
 
   });
-  it.skip('will get all pours for tap list when DB is not empty', function(done) {
+  it('will get all pours for tap list when DB is not empty', function(done) {
     var fixture = __fixture('pours-three');
 
     var createUser = function() {
@@ -85,7 +85,7 @@ describe('server', function() {
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
-      expect(omitID(json)).to.eql(omitID(fixture.response.json));
+      expect(omitIDAndUserID(json)).to.eql(omitIDAndUserID(fixture.response.json));
     })
     .done(function() { done(); }, done);
   });
