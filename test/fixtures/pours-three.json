@@ -1,0 +1,35 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/pours",
+    "headers": null,
+    "json": null
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "pours": [{
+        "id": 1,
+        "brewery": "Everybody's Brewing",
+        "beerName": "Lil Sis",
+        "venue": "M Bar",
+        "beerRating": 2.7,
+        "timeOfPour": 1404931268149
+        }, {
+        "id": 2,
+        "brewery": "Laurelwood Brewery",
+        "beerName": "Green Mammoth",
+        "venue": "Bailey's Taproom",
+        "beerRating": 3.6,
+        "timeOfPour": 1404931268147
+        }, {
+        "id": 3,
+        "brewery": "Full Sail Brewery",
+        "beerName": "26 Anniversary Cascade Pilsner",
+        "venue": "Apex",
+        "beerRating": 3.5,
+        "timeOfPour": 1404931268144
+        }]
+    }
+  }
+}
