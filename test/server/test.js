@@ -30,14 +30,22 @@ var requestFixture = function(fixture) {
   return requestAsync(requestOptions);
 };
 
-var omitIDAndUserID = function(target) {
+var omitPourProperties = function(target) {
   return {
     pours: target.pours.map(function(pour) {
-      return _.omit(pour, 'id', 'userID');
+      return _.omit(pour, 'id', 'userID', 'timeOfPour');
     })
   };
 };
 
+
+var sortPoursJSON = function(json) {
+  return {
+    pours: json.pours.sort(function(pourA, pourB) {
+      return pourA.beerName > pourB.beerName;
+    })
+  };
+};
 
 
 describe('server', function() {
@@ -85,7 +93,8 @@ describe('server', function() {
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
-      expect(omitIDAndUserID(json)).to.eql(omitIDAndUserID(fixture.response.json));
+      expect(omitPourProperties(sortPoursJSON(json))).to.eql(
+        omitPourProperties(sortPoursJSON(fixture.response.json)));
     })
     .done(function() { done(); }, done);
   });
