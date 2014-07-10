@@ -30,13 +30,22 @@ var requestFixture = function(fixture) {
 };
 
 describe('server', function() {
+  before(function(done) { this.server = app.listen(port, function() { done(); }); });
+  after(function(done) { this.server.close(done); });
+
+  afterEach(function(done) {
+    knex('pours').del().then(function() { done(); }, done);
+  });
+
   it('will get no pours for tap list when DB is empty', function() {
 
   });
   it('will get all pours for tap list when DB is not empty', function() {
 
   });
-  it('will post a pour to the DB', function() {
+  it.skip('will post a pour to the DB', function() {
+    var fixture = __fixture('pour-add');
+    });
 
   });
   it('will timestamp every pour automatically', function() {
