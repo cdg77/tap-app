@@ -3,20 +3,15 @@
 var models = require('../../server/models'),
     Pour = models.Pour,
     User = models.User;
-var port = 383273;
+
 var bluebird = require('bluebird'), Promise = bluebird;
-var TapApp = require('../../server/application');
 var expect = require('chai').expect;
+// TODO: ask if there's a way to clean this up a bit (week 3)
 var config = require('../../server/config');
 var knexConfig = require('../../knexfile')[config.env];
 var knex = require('knex')(knexConfig);
 
 describe('server', function() {
-  before(function(done) {
-    this.server = TapApp.listen(port, function() { done(); });
-  });
-  after(function(done) { this.server.close(done); });
-
   beforeEach(function(done) {
     this.user = User.forge({
       username: 'josh',
