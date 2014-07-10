@@ -29,14 +29,46 @@ var requestFixture = function(fixture) {
   return requestAsync(requestOptions);
 };
 
+var omitID = function(target) {
+  return {
+    pours: target.pours.map(function(pour) {
+      return _.omit(pour, 'id');
+    })
+  };
+};
+
+
+
 describe('server', function() {
-  it.skip('will get no pours for tap list when DB is empty', function() {
+
+  it('will get no pours for tap list when DB is empty', function() {
+    var fixture = __fixture('pours-empty');
+    requestFixture(fixture).spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(json).to.eql(fixture.response.json);
+    })
+    .done(function() { done(); }, done);
 
   });
-  it.skip('will get all pours for tap list when DB is not empty', function() {
+  it('will get all pours for tap list when DB is not empty', function() {
+    var fixture = __fixture('pours-three');
 
+    var savePromises = fixture.response.json.pours.map(function(pours) {
+      pours = _.omit(pours, 'id');
+      return Pour.forge(pours).save();
+    });
+
+    Promise.all(savePromises).then(function() {
+      return requestFixture(fixture);
+    })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(omitID(json)).to.eql(omitID(fixture.response.json));
+    })
+    .done(function() { done(); }, done);
   });
-  it.skip('will post a pour to the DB', function() {
+
+  it('will post a pour to the DB', function() {
 
   });
   it.skip('will timestamp every pour automatically', function() {

@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/pours",
+    "headers": null,
+    "json": null
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "pours": []
+    }
+  }
+}
