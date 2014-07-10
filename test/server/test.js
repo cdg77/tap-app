@@ -60,7 +60,7 @@ describe('server', function() {
     .done(function() { done(); }, done);
 
   });
-  it.skip('will get all pours for tap list when DB is not empty', function(done) {
+  it('will get all pours for tap list when DB is not empty', function(done) {
     var fixture = __fixture('pours-three');
 
     var createUser = function() {
