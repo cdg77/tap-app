@@ -10,7 +10,7 @@ To release a new build, follow these steps:
 	git ci -m '0.0.1'
 	git push heroku head:master -f
 
-		check to see if release works; 
+		check to see if release works;
 		if not rollback
 		else
 
@@ -20,10 +20,10 @@ To release a new build, follow these steps:
 	git branch -D release
 
 Rollback
-	git push heroku 0.0.0:master -f
+	git push heroku 0.0.3~0:master -f
 
-After writing a new migration, run it and check the DB to see the migration worked as expected before you commit. Then roll it back to make sure the roll back works. Then run it again and commit. 
+After writing a new migration, run it and check the DB to see the migration worked as expected before you commit. Then roll it back to make sure the roll back works. Then run it again and commit.
 
 Migrations must be also be run on Heroku:
-	heroku run bash 
-will open a ssh 
+	heroku run bash
+will open a ssh
