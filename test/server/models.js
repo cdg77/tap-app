@@ -4,6 +4,7 @@ var models = require('../../server/models'),
     Pour = models.Pour,
     User = models.User;
 var port = 383273;
+var bluebird = require('bluebird'), Promise = bluebird;
 var TapApp = require('../../server/application');
 var expect = require('chai').expect;
 var config = require('../../server/config');
@@ -13,31 +14,33 @@ var knex = require('knex')(knexConfig);
 describe('server', function() {
   before(function(done) {
     this.server = TapApp.listen(port, function() { done(); });
-    var user = User.forge({
-      username: 'josh',
-      passwordDigest: '$2a$12$owuIlEj3uCtitd3P5PEUCujQO7kODQdzE7oeSu7hxniCYI0WQWQVS'
-    });
   });
   after(function(done) { this.server.close(done); });
 
+  beforeEach(function(done) {
+    this.user = User.forge({
+      username: 'josh',
+      passwordDigest: 'anything'
+    });
+    this.user.save().then(function() { done(); }, done);
+  });
   afterEach(function(done) {
-    knex('pours').del().then(function() { done(); }, done);
+    Promise.resolve() // start promise sequence
+    .then(function() { return knex('pours').del(); })
+    .then(function() { return knex('users').del(); })
+    .then(function() { done(); }, done);
   });
 
-  it.skip('will timestamp every pour automatically', function(done) {
-  	var pour = Pour.forge({
-
-      userID: 1,
+  it.only('will timestamp every pour automatically', function(done) {
+  	Pour.forge({
+      userID: this.user.id,
       brewery: 'brewery',
       beerName: 'beerName',
       venue: 'venue',
       beerRating: 3,
-      timeOfPour: 4444
-    }).save().then(function() {
-
-      expect(pour.timeOfPour).to.exist;
+    }).save().then(function(pour) {
+      expect(pour.get('timeOfPour')).to.exist;
     }).done(function() { done(); }, done);
-
   });
 
   it.skip('respects timestamp given to it', function() {
