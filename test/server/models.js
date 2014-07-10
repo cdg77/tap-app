@@ -31,7 +31,7 @@ describe('server', function() {
     .then(function() { done(); }, done);
   });
 
-  it.only('will timestamp every pour automatically', function(done) {
+  it('will timestamp every pour automatically', function(done) {
   	Pour.forge({
       userID: this.user.id,
       brewery: 'brewery',
@@ -43,10 +43,22 @@ describe('server', function() {
     }).done(function() { done(); }, done);
   });
 
-  it.skip('respects timestamp given to it', function() {
-  	var timeOfPour = 1404930482855;
-  	var pour = Pour.forge({ brew: 'whatever', timeOfPour: timeOfPour });
-  	expect(pour.timeOfPour).to.eql(timeOfPour);
-
+  it('respects timestamp given to it on update', function(done) {
+  	var timeOfPour = 'Thu, 10 Jul 2014 21:24:39 GMT';
+  	Pour.forge({ 
+      userID: this.user.id,
+      brewery: 'brewery',
+      beerName: 'beerName',
+      venue: 'venue',
+      beerRating: 3,
+      timeOfPour: timeOfPour
+    }).save().then(function(pour) {
+      // on initial save, the time of pour will not be respected
+      expect(pour.get('timeOfPour')).to.not.eql(timeOfPour);
+      pour.set('timeOfPour', timeOfPour);
+      return pour.save();
+    }).then(function(pour) {
+      expect(pour.get('timeOfPour')).to.eql(timeOfPour);
+    }).done(function() { done(); }, done);
   });
 });
