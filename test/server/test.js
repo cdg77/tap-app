@@ -78,14 +78,15 @@ describe('server', function() {
     .then(function() { done(); }, done);
   });
 
-  it.skip('will get no pours for tap list when DB is empty', function(done) {
+  it('will get no pours for tap list when DB is empty', function(done) {
     var fixture = __fixture('pours-empty');
-    requestFixture(fixture).spread(function(response, body) {
+    Promise.resolve() // start promise sequence
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
       var json = JSON.parse(body);
-      expect(json).to.eql(fixture.response.json);
+      expect(json).to.eql({ pours: [] });
     })
     .done(function() { done(); }, done);
-
   });
   it('will get all pours for tap list when DB is not empty', function(done) {
     var fixture = __fixture('pours-three');
@@ -100,7 +101,7 @@ describe('server', function() {
     };
 
     Promise.resolve() // start promise sequence
-    .then(function(user) { return createUser(); })
+    .then(function() { return createUser(); })
     .then(function(user) { return createPours(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
