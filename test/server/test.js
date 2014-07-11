@@ -23,10 +23,13 @@ var requestFixture = function(fixture) {
   var requestOptions = {
     url: baseURL + fixture.request.url,
     method: fixture.request.method,
-    headers: fixture.request.headers,
-    body: JSON.stringify(fixture.request.json)
+    headers: _.extend({
+      'Content-Type': 'application/json'
+    }, fixture.request.headers)
   };
-
+  if (fixture.request.json) {
+    requestOptions.body = JSON.stringify(fixture.request.json);
+  }
   return requestAsync(requestOptions);
 };
 
@@ -98,16 +101,19 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
-  it.skip('will post a pour to the DB', function(done) {
+  it('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
     Promise.bind({})
     .then(function(user) { return createUser(); })
     .then(function(user) { return requestFixture(fixture); })
     .spread(function(response, body) {
+      console.log(body);
       this.json = JSON.parse(body);
       return Pour.fetchAll();
     })
     .then(function(collection) {
+      console.log(this.json);
+      console.log(collection.toJSON());
       expect(this.json).to.eql(collection.toJSON());
     })
     .done(function() { done(); }, done);

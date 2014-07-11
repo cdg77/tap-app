@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
@@ -43,23 +44,11 @@ api.get('/pours', function(req, res) {
 });
 
 api.post('/pours', function(req, res) {
-  res.json({
-    'pour': {
-      'id': 1,
-      'brewery': 'brewer',
-      'beerName': 'beer',
-      'venue': 'bar',
-      'timestamp': 6000000,
-      'userID': 1
-    // }, {
-    //   'id': 2,
-    //   'brewery': 'brewer2',
-    //   'beerName': 'beer2',
-    //   'venue': 'bar',
-    //   'timestamp': 6006500,
-    //   'userID': 1
-    }
-  });
+  console.log(req.body);
+  Pour.forge(_.pick(req.body.pour, 'brewery', 'beerName', 'venue', 'beerRating')).save()
+  .then(function(pour) {
+    res.json({ 'pours': pour.toJSON() });
+  }).done();
 });
 
 // all routes defined from here on will require authorization

@@ -3,12 +3,19 @@
     "method": "POST",
     "url": "/api/pours",
     "headers": null,
-    "json": null
+    "json": {
+      "pour": {
+        "brewery": "Cigar City",
+        "beerName": "Maduro",
+        "venue": "Sellwood Public House",
+        "beerRating": 4
+      }
+    }
   },
   "response": {
     "status": 200,
     "json": {
-      "pours": [{
+      "pour": {
         "id": 1,
         "brewery": "Cigar City",
         "beerName": "Maduro",
@@ -16,7 +23,7 @@
         "beerRating": 4,
         "timeOfPour": 600,
         "userID": 3
-      }]
+      }
     }
   }
 }
