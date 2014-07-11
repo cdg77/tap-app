@@ -51,14 +51,11 @@ api.delete('/sessions/current', admit.invalidate, function(req, res) {
 });
 
 api.post('/pours', function(req, res) {
-  console.log(req.body);
-  console.log(req.auth.user.id);
-  console.log(req.auth.db.user.id);
   var pourAttributes = _.pick(req.body.pour, 'brewery', 'beerName', 'venue', 'beerRating');
   pourAttributes.userID = req.auth.user.id;
   Pour.forge(pourAttributes).save()
   .then(function(pour) {
-    res.json({ 'pours': pour.toJSON() });
+    res.json({ 'pour': pour.toJSON() });
   }).done();
 });
 
