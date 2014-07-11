@@ -1,9 +1,8 @@
 'use strict';
 
-
 describe('TapApp', function() {
 
-	beforeEach(function() {
+  beforeEach(function() {
     var container = applicationContainer();
     var session = container.lookup('auth-session:main');
     session.set('content', {
@@ -36,19 +35,19 @@ describe('TapApp', function() {
 
   it.skip('will display ', function() {});
 
-	describe('when on profile page', function() {
-		beforeEach(function() {
-			visit('/profile');
-		});
+  describe('when on profile page', function() {
+    beforeEach(function() {
+      visit('/profile');
+    });
 
-	  it('lets the user move from profile to addPour', function() {
-    	click('button[name="create-pour"] a');
-    	andThen(function() {
-      	expect(currentRouteName()).to.eql('addPour');
-      	expect(currentPath()).to.eql('addPour');
-      	expect(currentURL()).to.eql('/addPour');
-    	});
-  	});
-	});
+    it('lets the user move from profile to addPour', function() {
+      click('button[name="create-pour"] a');
+      andThen(function() {
+        expect(currentRouteName()).to.eql('addPour');
+        expect(currentPath()).to.eql('addPour');
+        expect(currentURL()).to.eql('/addPour');
+      });
+    });
+  });
 });
 

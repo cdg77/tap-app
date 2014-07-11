@@ -27,7 +27,7 @@ describe('server', function() {
   });
 
   it('will timestamp every pour automatically', function(done) {
-  	Pour.forge({
+    Pour.forge({
       userID: this.user.id,
       brewery: 'brewery',
       beerName: 'beerName',
@@ -39,8 +39,8 @@ describe('server', function() {
   });
 
   it('respects timestamp given to it on update', function(done) {
-  	var timeOfPour = 'Thu, 10 Jul 2014 21:24:39 GMT';
-  	Pour.forge({ 
+    var timeOfPour = 'Thu, 10 Jul 2014 21:24:39 GMT';
+    Pour.forge({ 
       userID: this.user.id,
       brewery: 'brewery',
       beerName: 'beerName',

@@ -21,10 +21,10 @@ TapApp.ProfileRoute = Ember.Route.extend(Ember.AdmitOne.AuthenticatedRouteMixin,
 });
 
 TapApp.Pour = DS.Model.extend({
-	brewery: DS.attr('string'),
-	beerName: DS.attr('string'),
-	venue: DS.attr('string'),
-	beerRating: DS.attr('int')
+  brewery: DS.attr('string'),
+  beerName: DS.attr('string'),
+  venue: DS.attr('string'),
+  beerRating: DS.attr('int')
 });
 
 TapApp.ProfileController = Ember.ObjectController.extend({
