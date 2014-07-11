@@ -100,14 +100,15 @@ describe('server', function() {
   });
   it.skip('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
-    Promise.resolve()
+    Promise.bind({})
     .then(function(user) { return createUser(); })
     .then(function(user) { return requestFixture(fixture); })
     .spread(function(response, body) {
-      console.log(body);
-      var json = JSON.parse(body);
-      expect(omitPourProperties(sortPoursJSON(json))).to.eql(
-        Pour.fetchAll());
+      this.json = JSON.parse(body);
+      return Pour.fetchAll();
+    })
+    .then(function(collection) {
+      expect(this.json).to.eql(collection.toJSON());
     })
     .done(function() { done(); }, done);
   });

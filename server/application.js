@@ -42,6 +42,26 @@ api.get('/pours', function(req, res) {
   }).done();
 });
 
+api.post('/pours', function(req, res) {
+  res.json({
+    'pour': {
+      'id': 1,
+      'brewery': 'brewer',
+      'beerName': 'beer',
+      'venue': 'bar',
+      'timestamp': 6000000,
+      'userID': 1
+    // }, {
+    //   'id': 2,
+    //   'brewery': 'brewer2',
+    //   'beerName': 'beer2',
+    //   'venue': 'bar',
+    //   'timestamp': 6006500,
+    //   'userID': 1
+    }
+  });
+});
+
 // all routes defined from here on will require authorization
 api.use(admit.authorize);
 api.delete('/sessions/current', admit.invalidate, function(req, res) {
