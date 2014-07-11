@@ -9,6 +9,7 @@ TapApp.Router.map(function() {
   this.route('login');
   this.route('logout');
   this.route('profile');
+  this.route('addPour');
 });
 
 TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
@@ -90,6 +91,23 @@ TapApp.SignupController = Ember.ObjectController.extend({
         if (error.responseJSON) { error = error.responseJSON; }
         if (error.error) { error = error.error; }
         self.set('error', error);
+      });
+    }
+  }
+});
+
+TapApp.AddPoursRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('pour');
+  }
+});
+
+TapApp.ApplicationController = Ember.ObjectController.extend({
+  actions: {
+    post: function() {
+      var self = this;
+      this.store.createRecord('pour').save().then(function() {
+        self.transitionToRoute('pours');
       });
     }
   }
