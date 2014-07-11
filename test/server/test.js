@@ -16,6 +16,7 @@ var baseURL = util.format('http://localhost:%d', port);
 
 var Pour = models.Pour;
 var User = models.User;
+var Token = models.Token;
 
 var expect = require('chai').expect;
 
@@ -50,21 +51,29 @@ var sortPoursJSON = function(json) {
   };
 };
 
+var createUser = function() {
+  return User.forge({
+    username: 'sam',
+    passwordDigest: 'fakeDigest'
+  }).save();
+};
+
+var createToken = function(user) {
+  return Token.forge({
+    user_id: user.id,
+    value: 'a0a48bddab3d4b8408578e98d13f6ed51f51fa29'
+  }).save();
+};
+
 
 describe('server', function() {
-  var createUser = function() {
-    return User.forge({
-      username: 'sam',
-      passwordDigest: 'fakeDigest'
-    }).save();
-  };
-
   before(function(done) { this.server = app.listen(port, function() { done(); }); });
   after(function(done) { this.server.close(done); });
 
   afterEach(function(done) {
     Promise.resolve() // start promise sequence
     .then(function() { return knex('pours').del(); })
+    .then(function() { return knex('tokens').del(); })
     .then(function() { return knex('users').del(); })
     .then(function() { done(); }, done);
   });
@@ -104,11 +113,14 @@ describe('server', function() {
   it('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
     Promise.bind({})
-    .then(function(user) { return createUser(); })
-    .then(function(user) { return requestFixture(fixture); })
+    .then(function() { return createUser(); })
+    .then(function(user) { return createToken(user); })
+    .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       console.log(body);
       this.json = JSON.parse(body);
+      expect(this.json).to.eql(fixture.response.json);
+
       return Pour.fetchAll();
     })
     .then(function(collection) {
