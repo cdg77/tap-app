@@ -1,8 +1,8 @@
 'use strict';
 
 window.TapApp = Ember.Application.create();
-
-Ember.AdmitOne.setup();
+TapApp.AdmitOneContainers = {}; // overridable by tests
+Ember.AdmitOne.setup({ containers: TapApp.AdmitOneContainers });
 
 TapApp.Router.map(function() {
   this.route('signup');
@@ -18,6 +18,18 @@ TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
 
 // authenticate any route
 TapApp.ProfileRoute = Ember.Route.extend(Ember.AdmitOne.AuthenticatedRouteMixin, {
+});
+
+TapApp.Pour = DS.Model.extend({
+	brewery: DS.attr('string'),
+	beerName: DS.attr('string'),
+	venue: DS.attr('string'),
+	beerRating: DS.attr('int')
+});
+
+TapApp.ProfileController = Ember.ObjectController.extend({
+
+
 });
 
 TapApp.User = DS.Model.extend({
