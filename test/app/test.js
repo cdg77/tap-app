@@ -1,5 +1,13 @@
 'use strict';
 
+var respondWith = function(server, fixture) {
+  var req = fixture.request;
+  var res = fixture.response;
+  server.respondWith(req.method, req.url,
+    [res.status, { 'Content-Type': 'application/json' },
+      JSON.stringify(res.json)]);
+};
+
 describe('TapApp', function() {
 
   beforeEach(function() {
@@ -18,14 +26,20 @@ describe('TapApp', function() {
     TapApp.reset();
   });
 
-  it('will display pours', function() {
-    this.server.respondWith('GET', '/api/pours',
-      [200, { 'Content-Type': 'application/json' },
-        JSON.stringify(__fixture('pours-three').response.json)]);
-    visit('/');
-    andThen(function() {
+  describe('when visiting the home page', function() {
+    beforeEach(function() {
+      respondWith(this.server, __fixture('pours-three'));
+      visit('/');
+    });
+
+    it('will display pours', function() {
       expect(find('ul.pours li').length).to.eql(3);
-      console.log();
+    });
+
+    describe('api requests', function() {
+      it('makes a single request', function() {
+        expect(this.server.requests.length).to.eql(1);
+      });
     });
   });
 
@@ -42,6 +56,11 @@ describe('TapApp', function() {
     andThen(function() {
       expect(find('ul.pours li:last').text()).to.eql('');
     });
+    // TODO: make sure the requests that the client side ember data
+    // stuff is making actually match the fixtures. this was partially
+    // done above with the home page, but more expecations will be
+    // needed for post requests to ensure that the body matches with
+    // the fixture json (body).
   });
   //TODO: Test to see that non-authenticated user can't add pour
   describe('when on profile page', function() {

@@ -120,18 +120,3 @@ TapApp.AddPoursRoute = Ember.Route.extend({
     return this.store.find('pour');
   }
 });
-
-TapApp.ApplicationController = Ember.ObjectController.extend({
-  actions: {
-    post: function() {
-      var self = this;
-      this.store.createRecord('pour').save().then(function() {
-        self.transitionToRoute('pours');
-      });
-    },
-    get: function() {
-      this.store.find('pour').then(function() {
-      });
-    }
-  }
-});
