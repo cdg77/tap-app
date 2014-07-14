@@ -18,7 +18,17 @@ describe('TapApp', function() {
     TapApp.reset();
   });
 
-  it('will allow logged-in user to create a pour', function() {
+  it.skip('will display pours', function() {
+    this.server.respondWith('GET', '/api/pours',
+      [200, { 'Content-Type': 'application/json' },
+        JSON.stringify(__fixture('pours-three'))]);
+    visit('/');
+    andThen(function() {
+      expect(find('ul.pours li').length).to.eql(3);
+    });
+  });
+
+  it.skip('will allow logged-in user to create a pour', function() {
     this.server.respondWith('POST', '/api/pours',
       [200, { 'Content-Type': 'application/json' },
         JSON.stringify(__fixture('pours-create'))]);
@@ -32,15 +42,13 @@ describe('TapApp', function() {
       expect(find('ul.pours li:last').text()).to.eql('');
     });
   });
-
-  it.skip('will display ', function() {});
-
+  //TODO: Test to see that non-authenticated user can't add pour
   describe('when on profile page', function() {
     beforeEach(function() {
       visit('/profile');
     });
-
-    it('lets the user move from profile to addPour', function() {
+    
+    it.skip('lets the user move from profile to addPour', function() {
       click('button[name="create-pour"] a');
       andThen(function() {
         expect(currentRouteName()).to.eql('addPour');
