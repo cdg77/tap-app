@@ -2,7 +2,10 @@
   <h1>Flowing Taps</h1>
 
     <form {{action 'post' on='submit'}}>
-      {{input class= "pourBox" type="post" required="true" autofocus="true" placeholder="Create a pour." value=content}}
-      <br><button name="submit" type="submit">Save a tap</button>
+      {{input class= "pourBox" type="post" required="true" autofocus="true" placeholder="Enter Brewery." value=brewery}}
+      {{input class= "pourBox" type="post" required="true" autofocus="true" placeholder="Enter Beer Name." value=beerName}}
+      {{input class= "pourBox" type="post" required="true" autofocus="true" placeholder="Enter Venue." value=venue}}
+      {{input class= "pourBox" type="post" required="false" autofocus="true" placeholder="Enter A Beer Rating." value=beerRating}}
+      <br><button name="submit" type="submit">Save A Pour</button>
       {{#if error}}<div>Error: {{error}}.</div>{{/if}}
     </form>
