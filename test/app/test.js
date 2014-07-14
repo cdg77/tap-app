@@ -41,6 +41,15 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(3);
       });
 
+      it('displays a functioning Add Pour link', function() {
+        click('a.addPour');
+        andThen(function() {
+          expect(currentRouteName()).to.eql('addPour');
+          expect(currentPath()).to.eql('addPour');
+          expect(currentURL()).to.eql('/addPour');
+        });
+      });
+
       describe('api requests', function() {
         it('makes a single request', function() {
           expect(this.server.requests.length).to.eql(1);
@@ -89,7 +98,7 @@ describe('TapApp', function() {
       respondWith(this.server, __fixture('pours-three'));
       visit('/');
     });
-    it('displays a functioning login link', function() {
+    it('index displays a functioning login link', function() {
       click('a.login');
       andThen(function() {
         expect(currentRouteName()).to.eql('login');
