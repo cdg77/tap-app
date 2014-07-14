@@ -1,0 +1,8 @@
+<div class="content">
+  <h1>Flowing Taps</h1>
+
+    <form {{action 'post' on='submit'}}>
+      {{input class= "pourBox" type="post" required="true" autofocus="true" placeholder="Create a pour." value=content}}
+      <br><button name="submit" type="submit">Save a tap</button>
+      {{#if error}}<div>Error: {{error}}.</div>{{/if}}
+    </form>

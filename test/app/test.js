@@ -18,13 +18,14 @@ describe('TapApp', function() {
     TapApp.reset();
   });
 
-  it.skip('will display pours', function() {
+  it('will display pours', function() {
     this.server.respondWith('GET', '/api/pours',
       [200, { 'Content-Type': 'application/json' },
-        JSON.stringify(__fixture('pours-three'))]);
+        JSON.stringify(__fixture('pours-three').response.json)]);
     visit('/');
     andThen(function() {
       expect(find('ul.pours li').length).to.eql(3);
+      console.log();
     });
   });
 

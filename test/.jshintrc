@@ -38,6 +38,7 @@
     "click": true,
     "fillIn": true,
     "andThen": true,
+    "applicationContainer": true,
     "currentRouteName": true,
     "currentPath": true,
     "currentURL": true

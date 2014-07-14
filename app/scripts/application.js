@@ -10,6 +10,7 @@ TapApp.Router.map(function() {
   this.route('logout');
   this.route('profile');
   this.route('addPour');
+  this.route('pours');
 });
 
 TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
@@ -20,11 +21,17 @@ TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
 TapApp.ProfileRoute = Ember.Route.extend(Ember.AdmitOne.AuthenticatedRouteMixin, {
 });
 
+TapApp.IndexRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('pour');
+  }
+});
+
 TapApp.Pour = DS.Model.extend({
   brewery: DS.attr('string'),
   beerName: DS.attr('string'),
   venue: DS.attr('string'),
-  beerRating: DS.attr('int')
+  beerRating: DS.attr('number')
 });
 
 TapApp.ProfileController = Ember.ObjectController.extend({
@@ -120,6 +127,10 @@ TapApp.ApplicationController = Ember.ObjectController.extend({
       var self = this;
       this.store.createRecord('pour').save().then(function() {
         self.transitionToRoute('pours');
+      });
+    },
+    get: function() {
+      this.store.find('pour').then(function() {
       });
     }
   }
