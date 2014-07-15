@@ -3,9 +3,10 @@
 var respondWith = function(server, fixture) {
   var req = fixture.request;
   var res = fixture.response;
+  var headers = Ember.$.extend({ 'Content-Type': 'application/json' },
+    res.headers);
   server.respondWith(req.method, req.url,
-    [res.status, { 'Content-Type': 'application/json' },
-      JSON.stringify(res.json)]);
+    [res.status, headers, JSON.stringify(res.json)]);
 };
 
 describe('TapApp', function() {
@@ -118,17 +119,13 @@ describe('TapApp', function() {
       });
     });
     it('transitions to index when signing up', function() {
+      var fixture = __fixture('user-signup');
       click('a.login');
       click('a.signup');
-      // respondWith(this.server, __fixture('user-signup'));
-      this.server.respondWith('POST', '/api/users',
-        [200, {
-          'Content-Type': 'application/json',
-          'Authorization': 'Token f9f5cd63c4da42bc809def2e4e091296' },
-        JSON.stringify({'user':{'username':'josh23','id':6}})]);
+      respondWith(this.server, fixture);
 
-      fillIn('input[type="username"]', 'joshua');
-      fillIn('input[type="password"]', 'password');
+      fillIn('input[type="username"]', fixture.request.json.user.username);
+      fillIn('input[type="password"]', fixture.request.json.user.password);
       click('button[type="submit"]');
       andThen(function() {
         expect(currentRouteName()).to.eql('index');
