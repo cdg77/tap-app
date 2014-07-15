@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/users",
+    "json": {
+      "user": {
+        "username": "josh23",
+        "password": "password"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Authorization": "Token f9f5cd63c4da42bc809def2e4e091296"
+    },
+    "json": {
+      "user": {
+        "username": "josh23",
+        "id": 1
+      }
+    }
+  }
+}
