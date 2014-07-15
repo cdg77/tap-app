@@ -105,6 +105,8 @@ describe('TapApp', function() {
   describe('when not logged in', function() {
     beforeEach(function() {
       respondWith(this.server, __fixture('pours-three'));
+      // TODO: can we make something more understandable like this:
+      // this.fakeResponsesWithFixture('pours/GET');
       visit('/');
     });
     it('index displays a functioning login link', function() {
@@ -113,6 +115,25 @@ describe('TapApp', function() {
         expect(currentRouteName()).to.eql('login');
         expect(currentPath()).to.eql('login');
         expect(currentURL()).to.eql('/login');
+      });
+    });
+    it('transitions to index when signing up', function() {
+      click('a.login');
+      click('a.signup');
+      // respondWith(this.server, __fixture('user-signup'));
+      this.server.respondWith('POST', '/api/users',
+        [200, {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token f9f5cd63c4da42bc809def2e4e091296' },
+        JSON.stringify({'user':{'username':'josh23','id':6}})]);
+
+      fillIn('input[type="username"]', 'joshua');
+      fillIn('input[type="password"]', 'password');
+      click('button[type="submit"]');
+      andThen(function() {
+        expect(currentRouteName()).to.eql('index');
+        expect(currentPath()).to.eql('index');
+        expect(currentURL()).to.eql('/');
       });
     });
   });
