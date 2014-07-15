@@ -27,7 +27,7 @@ describe('TapApp', function() {
       var session = container.lookup('auth-session:main');
       session.set('content', {
         username: 'fake-username',
-        token: 'fake-token'
+        token: '3358c0a6619d430aa1270bafcdf75288'
       });
     });
 
@@ -62,13 +62,10 @@ describe('TapApp', function() {
       });
     });
 
-    it.skip('will allow creation of a pour', function() {
+    it('will allow creation of a pour', function() {
       this.fixture = __fixture('pour-add');
       respondWith(this.server, this.fixture);
-      // TODO: is a second request made when the redirect to the home page happens?
-      // it's better if you can keep this out if possible so that we're isolating the
-      // creation of the pour and not writing a test that tests multiple functions.
-      // respondWith(this.server, __fixture('pours-three'));
+      respondWith(this.server, __fixture('pours-three'));
 
       visit('/addPour');
       fillIn('input.brewery', this.fixture.request.json.pour.brewery);
@@ -77,12 +74,11 @@ describe('TapApp', function() {
       fillIn('input.rating', this.fixture.request.json.pour.beerRating);
       click('button[type="submit"]');
       andThen(function() {
-        expect(this.server.requests.length).to.eql(1); // TODO: are there two requests?
+        expect(this.server.requests.length).to.eql(2);
         expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
         expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
-        expect(this.server.requests[0].headers).to.eql(this.fixture.request.headers); // TODO: is this right?
-        expect(this.server.requests[0].body).to.eql(this.fixture.request.json); // TODO: is this right?
-
+        expect(this.server.requests[0].requestHeaders).to.contain(this.fixture.request.headers);
+        expect(JSON.parse(this.server.requests[0].requestBody)).to.eql(this.fixture.request.json);
         expect(currentRouteName()).to.eql('index');
         expect(currentPath()).to.eql('index');
         expect(currentURL()).to.eql('/');

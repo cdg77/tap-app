@@ -115,8 +115,20 @@ TapApp.SignupController = Ember.ObjectController.extend({
   }
 });
 
-TapApp.AddPoursRoute = Ember.Route.extend({
+TapApp.AddPourRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('pour');
+    return this.store.createRecord('pour');
   }
 });
+
+TapApp.AddPourController = Ember.ObjectController.extend({
+  actions: {
+    post: function() {
+      var self = this;
+      this.get('model').save().then(function() {
+        self.transitionToRoute('index');
+      });
+    }
+  }
+});
+
