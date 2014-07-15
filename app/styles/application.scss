@@ -23,6 +23,11 @@ ul.pours span {
   }
 }
 
+ul.pours li {
+  clear: both;
+  padding: 0.5em 0em;
+}
+
 ul.pours span.brewery {
   color: #0077ff;
 }
