@@ -10,7 +10,6 @@ TapApp.Router.map(function() {
   this.route('logout');
   this.route('profile');
   this.route('addPour');
-  this.route('pours');
 });
 
 TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
@@ -32,11 +31,6 @@ TapApp.Pour = DS.Model.extend({
   beerName: DS.attr('string'),
   venue: DS.attr('string'),
   beerRating: DS.attr('number')
-});
-
-TapApp.ProfileController = Ember.ObjectController.extend({
-
-
 });
 
 TapApp.User = DS.Model.extend({
