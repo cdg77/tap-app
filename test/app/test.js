@@ -33,7 +33,8 @@ describe('TapApp', function() {
 
     describe('when visiting the home page', function() {
       beforeEach(function() {
-        respondWith(this.server, __fixture('pours-three'));
+        this.fixture = __fixture('pours-three');
+        respondWith(this.server, this.fixture);
         visit('/');
       });
 
@@ -54,28 +55,40 @@ describe('TapApp', function() {
         it('makes a single request', function() {
           expect(this.server.requests.length).to.eql(1);
         });
+        it('matches the fixture', function() {
+          expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
+          expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
+        });
       });
     });
 
-    it.skip('will allow logged-in user to create a pour', function() {
-      this.server.respondWith('POST', '/api/pours',
-        [200, { 'Content-Type': 'application/json' },
-          JSON.stringify(__fixture('pours-create'))]);
-      this.server.respondWith('GET', '/api/pour',
-        [200, { 'Content-Type': 'application/json' },
-          JSON.stringify(__fixture('pours'))]);
-      visit('/');
-      fillIn('input.postBox', 'LOOK AT ME!!!!!');
-      click('button[name="submit"]');
+    it.skip('will allow creation of a pour', function() {
+      this.fixture = __fixture('pour-add');
+      respondWith(this.server, this.fixture);
+      // TODO: is a second request made when the redirect to the home page happens?
+      // it's better if you can keep this out if possible so that we're isolating the
+      // creation of the pour and not writing a test that tests multiple functions.
+      // respondWith(this.server, __fixture('pours-three'));
+
+      visit('/addPour');
+      fillIn('input.brewery', this.fixture.request.json.pour.brewery);
+      fillIn('input.beerName', this.fixture.request.json.pour.beerName);
+      fillIn('input.venue', this.fixture.request.json.pour.venue);
+      fillIn('input.rating', this.fixture.request.json.pour.beerRating);
+      click('button[type="submit"]');
       andThen(function() {
-        expect(find('ul.pours li:last').text()).to.eql('');
-      });
-      // TODO: make sure the requests that the client side ember data
-      // stuff is making actually match the fixtures. this was partially
-      // done above with the home page, but more expecations will be
-      // needed for post requests to ensure that the body matches with
-      // the fixture json (body).
+        expect(this.server.requests.length).to.eql(1); // TODO: are there two requests?
+        expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
+        expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
+        expect(this.server.requests[0].headers).to.eql(this.fixture.request.headers); // TODO: is this right?
+        expect(this.server.requests[0].body).to.eql(this.fixture.request.json); // TODO: is this right?
+
+        expect(currentRouteName()).to.eql('index');
+        expect(currentPath()).to.eql('index');
+        expect(currentURL()).to.eql('/');
+      }.bind(this));
     });
+
     //TODO: Test to see that non-authenticated user can't add pour
     describe('when on profile page', function() {
       beforeEach(function() {
