@@ -33,11 +33,6 @@ TapApp.Pour = DS.Model.extend({
   beerRating: DS.attr('number')
 });
 
-TapApp.ProfileController = Ember.ObjectController.extend({
-
-
-});
-
 TapApp.User = DS.Model.extend({
   username: DS.attr('string'),
   password: DS.attr('string')
@@ -47,7 +42,7 @@ TapApp.LoginRoute = Ember.Route.extend({
   beforeModel: function() {
     this._super();
     if (this.get('session').get('isAuthenticated')) {
-      this.transitionTo('profile');
+      this.transitionTo('index');
     }
   }
 });
@@ -66,7 +61,7 @@ TapApp.LoginController = Ember.Controller.extend({
           attemptedTransition.retry();
           self.set('attemptedTransition', null);
         } else {
-          self.transitionToRoute('profile');
+          self.transitionToRoute('index');
         }
       })
       .catch(function(error) {
@@ -103,7 +98,7 @@ TapApp.SignupController = Ember.ObjectController.extend({
       this.get('model').save() // create the user
       .then(function() {
         session.login({ username: self.get('model.username') });
-        self.transitionToRoute('profile');
+        self.transitionToRoute('index');
       })
       .catch(function(error) {
         if (error.responseJSON) { error = error.responseJSON; }
