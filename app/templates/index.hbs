@@ -1,6 +1,11 @@
-<h1>POURS</h1>
+<h1>Pours</h1>
 <ul class="pours">
 {{#each}}
-  <li>{{brewery}} {{beerName}} {{venue}} {{beerRating}}</li>
+  <li>
+    <span class="brewery">{{brewery}}</span>
+    <span class="beerName">{{beerName}}</span>
+    <span class="venue">at {{venue}}</span>
+    <span class="beerRating">rated: {{beerRating}}</span>
+  </li>
 {{/each}}
 </ul>
