@@ -80,7 +80,7 @@ describe('TapApp', function() {
       fillIn('input.brewery', this.fixture.request.json.pour.brewery);
       fillIn('input.beerName', this.fixture.request.json.pour.beerName);
       fillIn('input.venue', this.fixture.request.json.pour.venue);
-      fillIn('input.rating', this.fixture.request.json.pour.beerRating);
+      click('button.rating' + this.fixture.request.json.pour.beerRating);
       click('button[type="submit"]');
       andThen(function() {
         expect(this.server.requests.length).to.eql(2);
