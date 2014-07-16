@@ -36,7 +36,8 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/pours', function(req, res) {
-  Pour.fetchAll().then(function(collection) {
+  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
     });

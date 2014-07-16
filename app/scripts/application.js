@@ -26,11 +26,18 @@ TapApp.IndexRoute = Ember.Route.extend({
   }
 });
 
+TapApp.IndexController = Ember.ArrayController.extend({
+  sortProperties: ['timeOfPour'],
+  // sortDescending: true
+  sortAscending: false
+});
+
 TapApp.Pour = DS.Model.extend({
   brewery: DS.attr('string'),
   beerName: DS.attr('string'),
   venue: DS.attr('string'),
-  beerRating: DS.attr('number')
+  beerRating: DS.attr('number'),
+  timeOfPour: DS.attr('date')
 });
 
 TapApp.User = DS.Model.extend({
@@ -112,6 +119,16 @@ TapApp.SignupController = Ember.ObjectController.extend({
 TapApp.AddPourRoute = Ember.Route.extend({
   model: function() {
     return this.store.createRecord('pour');
+  },
+
+  actions: {
+    willTransition: function(transition) {
+      var model = this.get('controller.model');
+      if (model.get('isNew')) {
+        model.destroyRecord();
+      }
+      return true;
+    }
   }
 });
 
