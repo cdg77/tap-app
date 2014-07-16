@@ -112,6 +112,16 @@ TapApp.SignupController = Ember.ObjectController.extend({
 TapApp.AddPourRoute = Ember.Route.extend({
   model: function() {
     return this.store.createRecord('pour');
+  },
+
+  actions: {
+    willTransition: function(transition) {
+      var model = this.get('controller.model');
+      if (model.get('isNew')) {
+        model.destroyRecord();
+      }
+      return true;
+    }
   }
 });
 

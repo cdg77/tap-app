@@ -1,14 +1,11 @@
 <h1>Pours</h1>
 <ul class="pours">
 {{#each}}
-{{!--   Don't display empty pours--}}
-  {{#if brewery}}
     <li>
       <span class="brewery">{{brewery}}</span>
       <span class="beerName">{{beerName}}</span>
       <span class="venue">at {{venue}}</span>
       <span class="beerRating">rated: {{beerRating}}</span>
     </li>
-  {{/if}}
 {{/each}}
 </ul>
