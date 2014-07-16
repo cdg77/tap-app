@@ -43,6 +43,14 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(3);
       });
 
+      it('will not display empty pours after visiting addPour', function() {
+        click('a.addPour');
+        click('a.index');
+        andThen(function() {
+          expect(find('ul.pours li').length).to.eql(3);
+        });
+      });
+
       it('displays a functioning Add Pour link', function() {
         click('a.addPour');
         andThen(function() {
@@ -89,7 +97,12 @@ describe('TapApp', function() {
     //TODO: Test to see that non-authenticated user can't add pour
     describe('when on profile page', function() {
       beforeEach(function() {
+        this.fixture = __fixture('pours-by-profile');
         visit('/profile');
+      });
+
+      it.skip('displays all posts by that user on their profile page', function() {
+        expect(find('ul.pours li').length).to.eql(3);
       });
 
       it.skip('lets the user move from profile to addPour', function() {
