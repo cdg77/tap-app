@@ -160,23 +160,18 @@ TapApp.AddPourController = Ember.ObjectController.extend({
       });
     },
     choose1: function() {
-      console.log('choosing 1');
       this.set('model.beerRating', 1);
     },
     choose2: function() {
-      console.log('choosing 2');
       this.set('model.beerRating', 2);
     },
     choose3: function() {
-      console.log('choosing 3');
       this.set('model.beerRating', 3);
     },
     choose4: function() {
-      console.log('choosing 4');
       this.set('model.beerRating', 4);
     },
     choose5: function() {
-      console.log('choosing 5');
       this.set('model.beerRating', 5);
     }
   }
