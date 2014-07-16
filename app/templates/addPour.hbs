@@ -13,7 +13,16 @@
         <div class="form-group">
           {{input class="form-control venue" type="post" required="true" autofocus="true" placeholder="Venue" value=venue}}
         </div>
+
         <div class="form-group">
+          <div class="btn-group">
+            <button type="button" {{bind-attr class=":btn isRating1:btn-info:btn-default"}} {{action 'choose1'}}>Undrinkable</button>
+            <button type="button" {{bind-attr class=":btn isRating2:btn-info:btn-default"}} {{action 'choose2'}}>Disappointing</button>
+            <button type="button" {{bind-attr class=":btn isRating3:btn-info:btn-default"}} {{action 'choose3'}}>Solid</button>
+            <button type="button" {{bind-attr class=":btn isRating4:btn-info:btn-default"}} {{action 'choose4'}}>Great</button>
+            <button type="button" {{bind-attr class=":btn isRating5:btn-info:btn-default"}} {{action 'choose5'}}>Awesome</button>
+          </div>
+
           {{input class="form-control rating" type="post" required="false" autofocus="true" placeholder="Your rating: 1-5 (low to high)" value=beerRating}}
         </div>
         <button class="btn btn-primary" type="submit">Add A Pour</button>
