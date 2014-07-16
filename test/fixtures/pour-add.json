@@ -10,7 +10,8 @@
         "brewery": "Cigar City",
         "beerName": "Maduro",
         "venue": "Sellwood Public House",
-        "beerRating": 4
+        "beerRating": 4,
+        "timeOfPour": null
       }
     }
   },

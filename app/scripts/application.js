@@ -28,7 +28,6 @@ TapApp.IndexRoute = Ember.Route.extend({
 
 TapApp.IndexController = Ember.ArrayController.extend({
   sortProperties: ['timeOfPour'],
-  // sortDescending: true
   sortAscending: false
 });
 
