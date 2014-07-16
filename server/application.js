@@ -36,13 +36,10 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/pours', function(req, res) {
-  // select * from pour
-  // select * from pour order by timeOfPour desc
-  // select * from pour order by timeOfPour desc limit 20
-  Pour.fetchAll().then(function(collection) {
+  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
-      // 'pours': _.sortBy(collection.toJSON(), function(pour) { return (1 / pour.timeOfPour); }).slice(0,4)
     });
   }).done();
 });
