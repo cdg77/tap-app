@@ -27,6 +27,7 @@ describe('TapApp', function() {
       var container = applicationContainer();
       var session = container.lookup('auth-session:main');
       session.set('content', {
+        id: 7,
         username: 'fake-username',
         token: '3358c0a6619d430aa1270bafcdf75288'
       });
@@ -98,11 +99,12 @@ describe('TapApp', function() {
     describe('when on profile page', function() {
       beforeEach(function() {
         this.fixture = __fixture('pours-by-profile');
+        respondWith(this.server, this.fixture);
         visit('/profile');
       });
 
-      it.skip('displays all posts by that user on their profile page', function() {
-        expect(find('ul.pours li').length).to.eql(3);
+      it('displays all posts by that user on their profile page', function() {
+        expect(find('ul.pours li').length).to.eql(4);
       });
 
       it.skip('lets the user move from profile to addPour', function() {
