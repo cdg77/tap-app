@@ -64,6 +64,31 @@ api.delete('/sessions/current', admit.invalidate, function(req, res) {
   res.json({ status: 'ok' });
 });
 
+api.get('/users', function(req, res) {
+  var query = {};
+  console.log('%j', req.params.current);
+  if (req.query.current === 'true') {
+    // TODO: request that admit-one allows us to do authenticated or non-authenticated
+    // middleware so that this can exist for non-authenticated users
+    query.id = req.auth.user.id;
+  }
+  
+  User
+  .where(query)
+  .fetchAll().then(function(collection) {
+    res.json({
+      'users': collection.toJSON().map(function(user) {
+        // TODO: remove passwordDigest & other stuff
+        return _.merge(user, {
+          links: {
+            pours: '/api/users/' + user.id + '/pours'
+          }
+        });
+      })
+    });
+  }).done();
+});
+
 api.post('/pours', function(req, res) {
   var pourAttributes = _.pick(req.body.pour, 'brewery', 'beerName', 'venue', 'beerRating');
   pourAttributes.userID = req.auth.user.id;

@@ -1,0 +1,12 @@
+{{ username }}
+<h1>Pours You've Shared</h1>
+<ul class="pours">
+{{#each pours}}
+    <li>
+      <span class="brewery">{{brewery}}</span>
+      <span class="beerName">{{beerName}}</span>
+      <span class="venue">at {{venue}}</span>
+      <span class="beerRating"> {{beerRating}}</span>
+    </li>
+{{/each}}
+</ul>

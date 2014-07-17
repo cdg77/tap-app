@@ -101,7 +101,7 @@ describe('TapApp', function() {
         visit('/profile');
       });
 
-      it.skip('displays all posts by that user on their profile page', function() {
+      it('displays all posts by that user on their profile page', function() {
         expect(find('ul.pours li').length).to.eql(3);
       });
 

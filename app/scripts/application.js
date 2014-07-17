@@ -41,7 +41,8 @@ TapApp.Pour = DS.Model.extend({
 
 TapApp.User = DS.Model.extend({
   username: DS.attr('string'),
-  password: DS.attr('string')
+  password: DS.attr('string'),
+  pours: DS.hasMany('pour', { async: true })
 });
 
 TapApp.LoginRoute = Ember.Route.extend({
@@ -176,4 +177,23 @@ TapApp.AddPourController = Ember.ObjectController.extend({
     }
   }
 });
+
+TapApp.ProfileRoute = Ember.Route.extend({
+  model: function() {
+    var user;
+    return this.store.find('user', { current: true }).then(function(users) {
+      user = users.objectAt(0);
+      return user.get('pours');
+    }).then(function(pours) {
+      return user;
+    });
+    // return [];
+
+      // return this.store.find('pour', { userID : 7 });
+  }
+});
+
+TapApp.ProfileController = Ember.ObjectController.extend({
+});
+
 
