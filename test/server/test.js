@@ -131,4 +131,44 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
+
+  it('will get pours from a particular user', function(done) {
+    var fixture = __fixture('pours-by-profile');
+    var request = fixture.request;
+
+    var updateFixtureURL = function(user) {
+      request.url = request.url.replace(/\d+/, user.id);
+    };
+    var createPours = function(user) {
+      var promises = fixture.response.json.pours.map(function(pour) {
+        pour = _.omit(pour, 'id');
+        pour.userID = user.id;
+        return Pour.forge(pour).save();
+      });
+      return Promise.all(promises);
+    };
+    var createUnrelatedPour = function(user) {
+      return Pour.forge({
+        userID: user.id,
+        brewery: 'Bad Brewery',
+        beerName: 'Skunked Beer',
+        venue: 'Hole in the Wall',
+        beerRating: 1
+      }).save();
+    };
+
+    Promise.resolve() // start promise sequence
+    .then(function() { return createUser(); })
+    .tap(updateFixtureURL)
+    .then(function(user) { return createPours(user); })
+    .then(function() { return createUser(); })
+    .then(function(user) { return createUnrelatedPour(user); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(omitPourProperties(sortPoursJSON(json))).to.eql(
+        omitPourProperties(sortPoursJSON(fixture.response.json)));
+    })
+    .done(function() { done(); }, done);
+  });
 });

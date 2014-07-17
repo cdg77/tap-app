@@ -44,6 +44,17 @@ api.get('/pours', function(req, res) {
   }).done();
 });
 
+api.get('/users/:id/pours', function(req, res) {
+  app.get('/user/:id');
+  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  .fetchAll().then(function(collection) {
+    res.json({
+      'pours': collection.toJSON()
+    });
+  }).done();
+});
+
+
 // all routes defined from here on will require authorization
 api.use(admit.authorize);
 api.delete('/sessions/current', admit.invalidate, function(req, res) {

@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/api/pours",
+    "url": "/api/users/7/pours",
     "headers": null,
     "json": null
   },
@@ -14,33 +14,29 @@
         "beerName": "Lil Sis",
         "venue": "M Bar",
         "beerRating": 3,
-        "timeOfPour": 1404931268149,
-        "userID": 7
-        }, {
+        "timeOfPour": 1404931268149
+      }, {
         "id": 2,
         "brewery": "Laurelwood Brewery",
         "beerName": "Green Mammoth",
         "venue": "Bailey's Taproom",
         "beerRating": 4,
-        "timeOfPour": 1404931268147,
-        "userID": 7
-        }, {
+        "timeOfPour": 1404931268147
+      }, {
         "id": 3,
         "brewery": "Full Sail Brewery",
         "beerName": "26 Anniversary Cascade Pilsner",
         "venue": "Apex",
         "beerRating": 4,
-        "timeOfPour": 1404931268144,
-        "userID": 7
+        "timeOfPour": 1404931268144
       }, {
         "id": 4,
         "brewery": "Cigar City",
         "beerName": "Maduro",
         "venue": "Sellwood Public House",
         "beerRating": 4,
-        "timeOfPour": 600,
-        "userID": 3
+        "timeOfPour": 600
       }]
-    }
+     }
   }
 }
