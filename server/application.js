@@ -36,19 +36,12 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/pours', function(req, res) {
-  Pour
-  .query(function(q) { q.orderBy('timeOfPour'); })
-  .fetchAll().then(function(collection) {
-    res.json({
-      'pours': collection.toJSON()
-    });
-  }).done();
-});
+  var query = Pour;
+  if (req.query.user) {
+    query = query.where({ userID: req.query.user });
+  }
 
-api.get('/users/:id/pours', function(req, res) {
-  Pour
-  .where({ userID: req.params.id })
-  .query(function(q) { q.orderBy('timeOfPour'); })
+  query.query(function(q) { q.orderBy('timeOfPour'); })
   .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
