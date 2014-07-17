@@ -27,8 +27,24 @@ TapApp.IndexRoute = Ember.Route.extend({
 });
 
 TapApp.IndexController = Ember.ArrayController.extend({
+  itemController: 'pour',
   sortProperties: ['timeOfPour'],
   sortAscending: false
+});
+
+TapApp.PourController = Ember.ObjectController.extend({
+  ratingDescriptor: function() { 
+    if(this.get('beerRating') === 1)
+      return 'Undrinkable';
+    if(this.get('beerRating') === 2)
+      return 'Disappointing';
+    if(this.get('beerRating') === 3)
+      return 'Solid';
+    if(this.get('beerRating') === 4)
+      return 'Great';
+    if(this.get('beerRating') === 5)
+      return 'Awesome'
+  }.property('beerRating')
 });
 
 TapApp.Pour = DS.Model.extend({
