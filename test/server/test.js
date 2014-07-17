@@ -51,11 +51,11 @@ var sortPoursJSON = function(json) {
   };
 };
 
-var createUser = function() {
+var createUser = function(attrs) {
   return User.forge({
     username: 'sam',
     passwordDigest: 'fakeDigest'
-  }).save();
+  }).save(attrs, { method: 'insert' });
 };
 
 var createToken = function(user) {
@@ -94,14 +94,14 @@ describe('server', function() {
     var createPours = function(user) {
       var promises = fixture.response.json.pours.map(function(pour) {
         pour = _.omit(pour, 'id');
-        pour.userID = user.id;
-        return Pour.forge(pour).save();
+        pour.userID = 1;
+        return Pour.forge(pour).save(null, { method: 'insert' });
       });
       return Promise.all(promises);
     };
 
     Promise.resolve() // start promise sequence
-    .then(function() { return createUser(); })
+    .then(function() { return createUser({ id: 1 }); })
     .then(function(user) { return createPours(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
@@ -114,7 +114,7 @@ describe('server', function() {
   it('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
     Promise.bind({})
-    .then(function() { return createUser(); })
+    .then(function() { return createUser({ id: 1 }); })
     .then(function(user) { return createToken(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
