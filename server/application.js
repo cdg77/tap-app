@@ -36,13 +36,26 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/pours', function(req, res) {
-  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  Pour
+  .query(function(q) { q.orderBy('timeOfPour'); })
   .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
     });
   }).done();
 });
+
+api.get('/users/:id/pours', function(req, res) {
+  Pour
+  .where({ userID: req.params.id })
+  .query(function(q) { q.orderBy('timeOfPour'); })
+  .fetchAll().then(function(collection) {
+    res.json({
+      'pours': collection.toJSON()
+    });
+  }).done();
+});
+
 
 // all routes defined from here on will require authorization
 api.use(admit.authorize);

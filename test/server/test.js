@@ -51,11 +51,11 @@ var sortPoursJSON = function(json) {
   };
 };
 
-var createUser = function() {
+var createUser = function(attrs) {
   return User.forge({
     username: 'sam',
     passwordDigest: 'fakeDigest'
-  }).save();
+  }).save(attrs, { method: 'insert' });
 };
 
 var createToken = function(user) {
@@ -94,14 +94,14 @@ describe('server', function() {
     var createPours = function(user) {
       var promises = fixture.response.json.pours.map(function(pour) {
         pour = _.omit(pour, 'id');
-        pour.userID = user.id;
-        return Pour.forge(pour).save();
+        pour.userID = 1;
+        return Pour.forge(pour).save(null, { method: 'insert' });
       });
       return Promise.all(promises);
     };
 
     Promise.resolve() // start promise sequence
-    .then(function() { return createUser(); })
+    .then(function() { return createUser({ id: 1 }); })
     .then(function(user) { return createPours(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
@@ -114,7 +114,7 @@ describe('server', function() {
   it('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
     Promise.bind({})
-    .then(function() { return createUser(); })
+    .then(function() { return createUser({ id: 1 }); })
     .then(function(user) { return createToken(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
@@ -128,6 +128,46 @@ describe('server', function() {
       // stringifies the object, then parses it to make date formats match.
       var chewedAndSpitted = JSON.parse(JSON.stringify(collection.toJSON()[0]));
       expect(this.json.pour).to.eql(chewedAndSpitted);
+    })
+    .done(function() { done(); }, done);
+  });
+
+  it('will get pours from a particular user', function(done) {
+    var fixture = __fixture('pours-by-profile');
+    var request = fixture.request;
+
+    var updateFixtureURL = function(user) {
+      request.url = request.url.replace(/\d+/, user.id);
+    };
+    var createPours = function(user) {
+      var promises = fixture.response.json.pours.map(function(pour) {
+        pour = _.omit(pour, 'id');
+        pour.userID = user.id;
+        return Pour.forge(pour).save();
+      });
+      return Promise.all(promises);
+    };
+    var createUnrelatedPour = function(user) {
+      return Pour.forge({
+        userID: user.id,
+        brewery: 'Bad Brewery',
+        beerName: 'Skunked Beer',
+        venue: 'Hole in the Wall',
+        beerRating: 1
+      }).save();
+    };
+
+    Promise.resolve() // start promise sequence
+    .then(function() { return createUser(); })
+    .tap(updateFixtureURL)
+    .then(function(user) { return createPours(user); })
+    .then(function() { return createUser(); })
+    .then(function(user) { return createUnrelatedPour(user); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(omitPourProperties(sortPoursJSON(json))).to.eql(
+        omitPourProperties(sortPoursJSON(fixture.response.json)));
     })
     .done(function() { done(); }, done);
   });
