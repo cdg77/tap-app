@@ -36,7 +36,8 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/pours', function(req, res) {
-  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  Pour
+  .query(function(q) { q.orderBy('timeOfPour'); })
   .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
@@ -45,8 +46,9 @@ api.get('/pours', function(req, res) {
 });
 
 api.get('/users/:id/pours', function(req, res) {
-  app.get('/user/:id');
-  Pour.query(function(q) { q.orderBy('timeOfPour'); })
+  Pour
+  .where({ userID: req.params.id })
+  .query(function(q) { q.orderBy('timeOfPour'); })
   .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
