@@ -33,17 +33,16 @@ TapApp.IndexController = Ember.ArrayController.extend({
 });
 
 TapApp.PourController = Ember.ObjectController.extend({
-  ratingDescriptor: function() { 
-    if(this.get('beerRating') === 1)
-      return 'Undrinkable';
-    if(this.get('beerRating') === 2)
-      return 'Disappointing';
-    if(this.get('beerRating') === 3)
-      return 'Solid';
-    if(this.get('beerRating') === 4)
-      return 'Great';
-    if(this.get('beerRating') === 5)
-      return 'Awesome'
+  ratingDescriptor: function() {
+    var beerRating = this.get('beerRating');
+    var choices = {
+      1: 'Undrinkable',
+      2: 'Disappointing',
+      3: 'Solid',
+      4: 'Great',
+      5: 'Awesome'
+    };
+    return choices[beerRating];
   }.property('beerRating')
 });
 
@@ -193,3 +192,9 @@ TapApp.AddPourController = Ember.ObjectController.extend({
   }
 });
 
+// https://github.com/twbs/bootstrap/issues/9013
+$(document).on('click.nav', '.navbar-collapse.in', function(e) {
+  if($(e.target).is('a') || $(e.target).is('button')) {
+    $(this).collapse('hide');
+  }
+});
