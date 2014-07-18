@@ -34,5 +34,6 @@ Pour = bookshelf.Model.extend({
 module.exports = {
   User: User,
   Token: Token,
-  Pour: Pour
+  Pour: Pour,
+  _knex: knex
 };
