@@ -1,0 +1,20 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/pours",
+    "headers": null,
+    "json": null
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "pour": {
+        "id": 1,
+        "brewery": "Everybody's Brewing",
+        "beerName": "Lil Sis",
+        "venue": "M Bar",
+        "beerRating": 3
+      }
+    }
+  }
+}

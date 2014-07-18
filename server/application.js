@@ -41,7 +41,10 @@ api.get('/pours', function(req, res) {
     query = query.where({ userID: req.query.user });
   }
 
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   query.query(function(q) { q.orderBy('timeOfPour'); })
+  .query('where', 'timeOfPour', '>=', oneWeekAgo)
   .fetchAll().then(function(collection) {
     res.json({
       'pours': collection.toJSON()
