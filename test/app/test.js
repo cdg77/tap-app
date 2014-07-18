@@ -44,6 +44,12 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(3);
       });
 
+      it('displays the pour rating with a human friendly message', function() {
+        expect(find('ul.pours li:nth-of-type(1) span.beerRating').text().trim()).to.eql('Solid');
+        expect(find('ul.pours li:nth-of-type(2) span.beerRating').text().trim()).to.eql('Great');
+        expect(find('ul.pours li:nth-of-type(3) span.beerRating').text().trim()).to.eql('Great');
+      });
+
       it('will not display empty pours after visiting addPour', function() {
         click('a.addPour');
         click('a.index');
