@@ -212,3 +212,9 @@ TapApp.ProfileController = Ember.ArrayController.extend({
   sortProperties: ['timeOfPour'],
   sortAscending: false
 });
+
+TapApp.FocusInputComponent = Ember.TextField.extend({
+  becomeFocused: function() {
+    this.$().focus();
+  }.on('didInsertElement')
+});
