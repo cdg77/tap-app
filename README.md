@@ -10,9 +10,15 @@ To release a new build, follow these steps:
 	git ci -m '0.0.1'
 	git push heroku head:master -f
 
-		check to see if release works;
-		if not: heroku rollback
-		else
+	-check to see if release works:
+
+	heroku open
+
+	-if not:
+
+	heroku rollback
+
+	-else
 
 	git tag -a -m '0.0.1' 0.0.1
 	git push --tags
