@@ -149,5 +149,14 @@ describe('TapApp', function() {
       });
     });
   });
+  describe.skip('when user visits login', function() {
+    beforeEach(function() {
+      visit('/login');
+    });
+    it('will focus in username field', function() {
+      console.log(document.activeElement);
+      expect(document.activeElement()).to.eql('something that would work');
+    });
+  });
 });
 
