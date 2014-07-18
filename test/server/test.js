@@ -111,6 +111,29 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
+  it('will not get pours more than a week old', function(done) {
+    var fixture = __fixture('pour-old');
+    var oldPour = fixture.response.json.pour;
+    // oldPour = _.omit(oldPour, 'id');
+    oldPour.userID = 1;
+    var twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+    Promise.resolve() // start promise sequence
+    .then(function() { return createUser({ id: 1 }); })
+    .then(function(user) {
+      return Pour.forge(oldPour).save({ timeOfPour: twoWeeksAgo }, { method: 'insert' });
+    })
+    .then(function(pour) {
+      console.log(pour.toJSON());
+    })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(json.pours).to.eql([]);
+    })
+    .done(function() { done(); }, done);
+  });
   it('will post a pour to the DB', function(done) {
     var fixture = __fixture('pour-add');
     Promise.bind({})
