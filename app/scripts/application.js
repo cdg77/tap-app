@@ -208,4 +208,7 @@ TapApp.ProfileRoute = Ember.Route.extend({
 });
 
 TapApp.ProfileController = Ember.ArrayController.extend({
+  itemController: 'pour',
+  sortProperties: ['timeOfPour'],
+  sortAscending: false
 });
