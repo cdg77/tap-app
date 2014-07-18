@@ -6,10 +6,8 @@ var models = require('../../server/models'),
 
 var bluebird = require('bluebird'), Promise = bluebird;
 var expect = require('chai').expect;
-// TODO: ask if there's a way to clean this up a bit (week 3)
-var config = require('../../server/config');
-var knexConfig = require('../../knexfile')[config.env];
-var knex = require('knex')(knexConfig);
+var models = require('../../server/models');
+var knex = models._knex;
 
 describe('server', function() {
   beforeEach(function(done) {
