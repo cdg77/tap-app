@@ -45,9 +45,9 @@ describe('TapApp', function() {
       });
 
       it('displays the pour rating with a human friendly message', function() {
-        expect(find('ul.pours li:nth-of-type(1) span.beerRating').text().trim()).to.eql('Solid');
-        expect(find('ul.pours li:nth-of-type(2) span.beerRating').text().trim()).to.eql('Great');
-        expect(find('ul.pours li:nth-of-type(3) span.beerRating').text().trim()).to.eql('Great');
+        expect(find('ul.pours li:nth-of-type(1) span.beerRatingRed').text().trim()).to.eql('Solid');
+        expect(find('ul.pours li:nth-of-type(2) span.beerRatingRed').text().trim()).to.eql('Great');
+        expect(find('ul.pours li:nth-of-type(3) span.beerRatingRed').text().trim()).to.eql('Great');
       });
 
       it('will not display empty pours after visiting addPour', function() {
@@ -113,8 +113,8 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(4);
       });
 
-      it.skip('lets the user move from profile to addPour', function() {
-        click('button[name="create-pour"] a');
+      it('lets the user move from profile to addPour', function() {
+        click('a.addPour');
         andThen(function() {
           expect(currentRouteName()).to.eql('addPour');
           expect(currentPath()).to.eql('addPour');
