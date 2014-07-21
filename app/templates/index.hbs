@@ -2,24 +2,10 @@
 <ul class="pours">
 {{#each}}
   <li>
-    {{#if isNewPour}}
-      <span class="brewery new">{{brewery}}</span>
-      <span class="beerName new">{{beerName}}</span>
-      <span class="venue">at {{venue}}</span>
-      <span class="beerRating new"> {{ratingDescriptor}}</span>
-    {{else}}
-      {{#if isOldPour}}
-        <span class="brewery old">{{brewery}}</span>
-        <span class="beerName old">{{beerName}}</span>
-        <span class="venue">at {{venue}}</span>
-        <span class="beerRating old"> {{ratingDescriptor}}</span>
-      {{else}}
-        <span class="brewery tween">{{brewery}}</span>
-        <span class="beerName tween">{{beerName}}</span>
-        <span class="venue">at {{venue}}</span>
-        <span class="beerRating tween"> {{ratingDescriptor}}</span>
-      {{/if}}
-    {{/if}}
+    <span {{bind-attr class=":brewery isNewPour:new isOldPour:old isTweenPour:tween"}}>{{brewery}}</span>
+    <span {{bind-attr class=":beerName isNewPour:new isOldPour:old isTweenPour:tween"}}>{{beerName}}</span>
+    <span class="venue">at {{venue}}</span>
+    <span {{bind-attr class=":beerRating isNewPour:new isOldPour:old isTweenPour:tween"}}> {{ratingDescriptor}}</span>
   </li>
 {{/each}}
 </ul>

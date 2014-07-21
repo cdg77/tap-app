@@ -40,7 +40,10 @@ module.exports = function(TapApp) {
       } else {
         return false;
       }
-  }.property('timeOfPour')
+    }.property('timeOfPour'),
+    isTweenPour: function() {
+      return !this.get('isNewPour') && !this.get('isOldPour');
+    }.property('isOldPour', 'isNewPour')
 
   });
 };
