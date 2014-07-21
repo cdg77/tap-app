@@ -5,13 +5,13 @@
       <h1>Add A Pour</h1>
       <form {{action 'post' on='submit'}}>
         <div class="form-group">
-          {{input class="form-control brewery" type="post" required="true" autofocus="true" placeholder="Brewery" value=brewery}}
+          {{focus-input class="form-control brewery" type="post" required="true" autofocus="true" placeholder="Brewery" value=brewery}}
         </div>
         <div class="form-group">
-          {{input class="form-control beerName" type="post" required="true" autofocus="true" placeholder="Name of beer" value=beerName}}
+          {{input class="form-control beerName" type="post" required="true" placeholder="Name of beer" value=beerName}}
         </div>
         <div class="form-group">
-          {{input class="form-control venue" type="post" required="true" autofocus="true" placeholder="Venue" value=venue}}
+          {{input class="form-control venue" type="post" required="true"  placeholder="Venue" value=venue}}
         </div>
 
         <div class="form-group">

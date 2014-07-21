@@ -32,3 +32,16 @@ $(document).on('click.nav', '.navbar-collapse.in', function(e) {
   }
 });
 
+TapApp.ProfileRoute = Ember.Route.extend({
+  model: function() {
+    // TODO: can we send { user: 'current' } instead? not yet. you'd need
+    // some features to be added to admit-one.
+    return this.store.find('pour', { user: this.get('session.id') });
+  }
+});
+
+TapApp.FocusInputComponent = Ember.TextField.extend({
+  becomeFocused: function() {
+    this.$().focus();
+  }.on('didInsertElement')
+});
