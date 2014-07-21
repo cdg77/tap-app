@@ -3,21 +3,21 @@
 {{#each}}
   <li>
     {{#if isNewPour}}
-      <span class="breweryGreen">{{brewery}}</span>
-      <span class="beerNameGreen">{{beerName}}</span>
+      <span class="brewery new">{{brewery}}</span>
+      <span class="beerName new">{{beerName}}</span>
       <span class="venue">at {{venue}}</span>
-      <span class="beerRatingGreen"> {{ratingDescriptor}}</span>
+      <span class="beerRating new"> {{ratingDescriptor}}</span>
     {{else}}
       {{#if isOldPour}}
-        <span class="breweryRed">{{brewery}}</span>
-        <span class="beerNameRed">{{beerName}}</span>
+        <span class="brewery old">{{brewery}}</span>
+        <span class="beerName old">{{beerName}}</span>
         <span class="venue">at {{venue}}</span>
-        <span class="beerRatingRed"> {{ratingDescriptor}}</span>
+        <span class="beerRating old"> {{ratingDescriptor}}</span>
       {{else}}
-        <span class="breweryYellow">{{brewery}}</span>
-        <span class="beerNameYellow">{{beerName}}</span>
+        <span class="brewery tween">{{brewery}}</span>
+        <span class="beerName tween">{{beerName}}</span>
         <span class="venue">at {{venue}}</span>
-        <span class="beerRatingYellow"> {{ratingDescriptor}}</span>
+        <span class="beerRating tween"> {{ratingDescriptor}}</span>
       {{/if}}
     {{/if}}
   </li>
