@@ -12,204 +12,17 @@ TapApp.Router.map(function() {
   this.route('addPour');
 });
 
+require('./pods/add-pour.js')(TapApp);
+require('./pods/index.js')(TapApp);
+require('./pods/login.js')(TapApp);
+require('./pods/logout.js')(TapApp);
+require('./pods/pour.js')(TapApp);
+require('./pods/profile.js')(TapApp);
+require('./pods/signup.js')(TapApp);
+require('./pods/user.js')(TapApp);
+
 TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
-});
-
-// authenticate any route
-TapApp.ProfileRoute = Ember.Route.extend(Ember.AdmitOne.AuthenticatedRouteMixin, {
-});
-
-TapApp.IndexRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.find('pour');
-  }
-});
-
-TapApp.IndexController = Ember.ArrayController.extend({
-  itemController: 'pour',
-  sortProperties: ['timeOfPour'],
-  sortAscending: false
-});
-
-TapApp.PourController = Ember.ObjectController.extend({
-  ratingDescriptor: function() {
-    var beerRating = this.get('beerRating');
-    var choices = {
-      1: 'Undrinkable',
-      2: 'Disappointing',
-      3: 'Solid',
-      4: 'Great',
-      5: 'Awesome'
-    };
-    return choices[beerRating];
-  }.property('beerRating'),
-  isNewPour: function() {
-    var timeOfPour = this.get('timeOfPour');
-    var oneDayAgo = new Date();
-    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-    if(timeOfPour >= oneDayAgo) {
-      return true;
-    } else {
-      return false;
-    }
-  }.property('timeOfPour'),
-  isOldPour: function() {
-    var timeOfPour = this.get('timeOfPour');
-    var threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    if(timeOfPour < threeDaysAgo) {
-      return true;
-    } else {
-      return false;
-    }
-  }.property('timeOfPour')
-});
-
-TapApp.Pour = DS.Model.extend({
-  brewery: DS.attr('string'),
-  beerName: DS.attr('string'),
-  venue: DS.attr('string'),
-  beerRating: DS.attr('number'),
-  timeOfPour: DS.attr('date')
-});
-
-TapApp.User = DS.Model.extend({
-  username: DS.attr('string'),
-  password: DS.attr('string')
-});
-
-TapApp.LoginRoute = Ember.Route.extend({
-  beforeModel: function() {
-    this._super();
-    if (this.get('session').get('isAuthenticated')) {
-      this.transitionTo('index');
-    }
-  }
-});
-
-TapApp.LoginController = Ember.Controller.extend({
-  actions: {
-    authenticate: function() {
-      var self = this;
-      var session = this.get('session');
-      var credentials = this.getProperties('username', 'password');
-      this.set('error', undefined);
-      this.set('password', undefined);
-      session.authenticate(credentials).then(function() {
-        var attemptedTransition = self.get('attemptedTransition');
-        if (attemptedTransition) {
-          attemptedTransition.retry();
-          self.set('attemptedTransition', null);
-        } else {
-          self.transitionToRoute('index');
-        }
-      })
-      .catch(function(error) {
-        self.set('error', error);
-      });
-    }
-  }
-});
-
-TapApp.LogoutRoute = Ember.Route.extend({
-  beforeModel: function() {
-    this._super();
-    var self = this;
-    var session = this.get('session');
-    return session.invalidate().finally(function() {
-      self.transitionTo('index');
-    });
-  }
-});
-
-TapApp.SignupRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.createRecord('user');
-  }
-});
-
-TapApp.SignupController = Ember.ObjectController.extend({
-  actions: {
-    signup: function() {
-      var session = this.get('session');
-      var self = this;
-
-      this.set('error', undefined);
-      this.get('model').save() // create the user
-      .then(function() {
-        session.login({ username: self.get('model.username') });
-        self.transitionToRoute('index');
-      })
-      .catch(function(error) {
-        if (error.responseJSON) { error = error.responseJSON; }
-        if (error.error) { error = error.error; }
-        self.set('error', error);
-      });
-    }
-  }
-});
-
-TapApp.AddPourRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.createRecord('pour');
-  },
-
-  actions: {
-    willTransition: function(transition) {
-      var model = this.get('controller.model');
-      if (model.get('isNew')) {
-        model.destroyRecord();
-      }
-      return true;
-    }
-  }
-});
-
-TapApp.AddPourController = Ember.ObjectController.extend({
-  isRating1: function() {
-    return parseInt(this.get('model.beerRating')) === 1;
-  }.property('beerRating'),
-
-  isRating2: function() {
-    return parseInt(this.get('model.beerRating')) === 2;
-  }.property('beerRating'),
-
-  isRating3: function() {
-    return parseInt(this.get('model.beerRating')) === 3;
-  }.property('beerRating'),
-
-  isRating4: function() {
-    return parseInt(this.get('model.beerRating')) === 4;
-  }.property('beerRating'),
-
-  isRating5: function() {
-    return parseInt(this.get('model.beerRating')) === 5;
-  }.property('beerRating'),
-
-  actions: {
-    post: function() {
-      var self = this;
-      this.get('model').save().then(function() {
-        self.transitionToRoute('index');
-      });
-    },
-    choose1: function() {
-      this.set('model.beerRating', 1);
-    },
-    choose2: function() {
-      this.set('model.beerRating', 2);
-    },
-    choose3: function() {
-      this.set('model.beerRating', 3);
-    },
-    choose4: function() {
-      this.set('model.beerRating', 4);
-    },
-    choose5: function() {
-      this.set('model.beerRating', 5);
-    }
-  }
 });
 
 // https://github.com/twbs/bootstrap/issues/9013
@@ -227,8 +40,8 @@ TapApp.ProfileRoute = Ember.Route.extend({
   }
 });
 
-TapApp.ProfileController = Ember.ArrayController.extend({
-  itemController: 'pour',
-  sortProperties: ['timeOfPour'],
-  sortAscending: false
+TapApp.FocusInputComponent = Ember.TextField.extend({
+  becomeFocused: function() {
+    this.$().focus();
+  }.on('didInsertElement')
 });
