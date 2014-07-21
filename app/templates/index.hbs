@@ -1,11 +1,25 @@
 <h1>Pours</h1>
 <ul class="pours">
 {{#each}}
-    <li>
-      <span class="brewery">{{brewery}}</span>
-      <span class="beerName">{{beerName}}</span>
+  <li>
+    {{#if isNewPour}}
+      <span class="breweryGreen">{{brewery}}</span>
+      <span class="beerNameGreen">{{beerName}}</span>
       <span class="venue">at {{venue}}</span>
-      <span class="beerRating"> {{ratingDescriptor}}</span>
-    </li>
+      <span class="beerRatingGreen"> {{ratingDescriptor}}</span>
+    {{else}}
+      {{#if isOldPour}}
+        <span class="breweryRed">{{brewery}}</span>
+        <span class="beerNameRed">{{beerName}}</span>
+        <span class="venue">at {{venue}}</span>
+        <span class="beerRatingRed"> {{ratingDescriptor}}</span>
+      {{else}}
+        <span class="breweryYellow">{{brewery}}</span>
+        <span class="beerNameYellow">{{beerName}}</span>
+        <span class="venue">at {{venue}}</span>
+        <span class="beerRatingYellow"> {{ratingDescriptor}}</span>
+      {{/if}}
+    {{/if}}
+  </li>
 {{/each}}
 </ul>

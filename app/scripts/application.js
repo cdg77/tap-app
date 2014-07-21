@@ -43,7 +43,27 @@ TapApp.PourController = Ember.ObjectController.extend({
       5: 'Awesome'
     };
     return choices[beerRating];
-  }.property('beerRating')
+  }.property('beerRating'),
+  isNewPour: function() {
+    var timeOfPour = this.get('timeOfPour');
+    var oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    if(timeOfPour >= oneDayAgo) {
+      return true;
+    } else {
+      return false;
+    }
+  }.property('timeOfPour'),
+  isOldPour: function() {
+    var timeOfPour = this.get('timeOfPour');
+    var threeDaysAgo = new Date();
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    if(timeOfPour < threeDaysAgo) {
+      return true;
+    } else {
+      return false;
+    }
+  }.property('timeOfPour')
 });
 
 TapApp.Pour = DS.Model.extend({

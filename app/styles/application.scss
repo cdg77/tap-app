@@ -28,17 +28,45 @@ ul.pours li {
   padding: 0.5em 0em;
 }
 
-ul.pours span.brewery {
-  color: #0077ff;
+ul.pours span.breweryGreen {
+  color: #0ab043;
 }
 
-ul.pours span.beerName {
-  color: #0077ff;
+ul.pours span.breweryYellow {
+  color: #0d28e8;
 }
 
-ul.pours span.beerRating {
+ul.pours span.breweryRed {
+  color: #ff1b52;
+}
+
+ul.pours span.beerNameGreen {
+  color: #0ab043;
+}
+
+ul.pours span.beerNameYellow {
+  color: #0d28e8;
+}
+
+ul.pours span.beerNameRed {
+  color: #ff1b52;
+}
+
+ul.pours span.beerRatingGreen {
   color: white;
-  background-color: #0077ff;
+  background-color: #0ab043;
+  padding: 0em 0.3em 0em 0.3em;
+}
+
+ul.pours span.beerRatingYellow {
+  color: white;
+  background-color: #0d28e8;
+  padding: 0em 0.3em 0em 0.3em;
+}
+
+ul.pours span.beerRatingRed {
+  color: white;
+  background-color: #ff1b52;
   padding: 0em 0.3em 0em 0.3em;
 }
 
