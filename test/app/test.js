@@ -122,18 +122,34 @@ describe('TapApp', function() {
         });
       });
     });
-    describe.skip('when you add a pour', function() {
+    describe('when you add a pour', function() {
       beforeEach(function() {
         this.fixture = __fixture('pours-three');
         respondWith(this.server, this.fixture);
         visit('/addPour');
-        it('common brewery names autocomplete', function() {
-          keyEvent('input.brewery', keypress, 65);
-          keyEvent('input.brewery', keypress, 40);
-          keyEvent('input.brewery', keypress, 13);
-
-          expect(find('input.brewery').text().trim()).to.eql('Apex');
-        });
+      });
+      it.skip('will autocomplete common brewery names', function() {
+        this.fixture = __fixture('pour-add');
+        respondWith(this.server, this.fixture);
+        respondWith(this.server, __fixture('pours-three'));
+        visit('/addPour');
+        keyEvent('input.brewery', 'keypress', 67);
+        keyEvent('input.brewery', 'keypress', 40);
+        keyEvent('input.brewery', 'keypress', 13);        
+        fillIn('input.beerName', this.fixture.request.json.pour.beerName);
+        fillIn('input.venue', this.fixture.request.json.pour.venue);
+        click('button.rating' + this.fixture.request.json.pour.beerRating);
+        click('button[type="submit"]');
+        andThen(function() {
+          expect(this.server.requests.length).to.eql(2);
+          expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
+          expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
+          expect(this.server.requests[0].requestHeaders).to.contain(this.fixture.request.headers);
+          expect(JSON.parse(this.server.requests[0].requestBody)).to.eql(this.fixture.request.json);
+          expect(currentRouteName()).to.eql('index');
+          expect(currentPath()).to.eql('index');
+          expect(currentURL()).to.eql('/');
+        }.bind(this));
       });
     });
   });
