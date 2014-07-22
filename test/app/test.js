@@ -128,7 +128,7 @@ describe('TapApp', function() {
         respondWith(this.server, this.fixture);
         visit('/addPour');
       });
-      it.only('will autocomplete common brewery names', function() {
+      it.skip('will autocomplete common brewery names', function() {
         this.fixture = __fixture('pour-add');
         respondWith(this.server, this.fixture);
         respondWith(this.server, __fixture('pours-three'));
