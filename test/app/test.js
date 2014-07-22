@@ -122,6 +122,20 @@ describe('TapApp', function() {
         });
       });
     });
+    describe.skip('when you add a pour', function() {
+      beforeEach(function() {
+        this.fixture = __fixture('pours-three');
+        respondWith(this.server, this.fixture);
+        visit('/addPour');
+        it('common brewery names autocomplete', function() {
+          keyEvent('input.brewery', keypress, 65);
+          keyEvent('input.brewery', keypress, 40);
+          keyEvent('input.brewery', keypress, 13);
+
+          expect(find('input.brewery').text().trim()).to.eql('Apex');
+        });
+      });
+    });   
   });
 
   describe('when not logged in', function() {
