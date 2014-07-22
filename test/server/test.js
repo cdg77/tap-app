@@ -191,7 +191,7 @@ describe('server', function() {
     .done(function() { done(); }, done);
   });
   it.skip('updates user DB entry with user display name', function(done) {
-    fixture = __fixture('user-displayName-update');
+    var fixture = __fixture('user-displayName-update');
     Promise.resolve()
     .then(function() { return createUser({ id: 1 }); })
     // .then(function(user) { return createToken(user); })
