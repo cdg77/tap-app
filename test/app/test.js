@@ -128,25 +128,14 @@ describe('TapApp', function() {
         respondWith(this.server, this.fixture);
         visit('/addPour');
       });
-      it.skip('will autocomplete common brewery names', function() {
-        console.log(currentURL());
-        // fillIn('input.brewery', 'monkey');
-        // keyEvent('input.brewery', 'keypress', 9);
-        keyEvent('input.brewery', 'keypress', 66);
-        keyEvent('input.brewery', 'keypress', 40);
-        keyEvent('input.brewery', 'keypress', 13);
-        expect(find('input.brewery').text().trim()).to.eql('Bridgeport');
-      });
       it.only('will autocomplete common brewery names', function() {
         this.fixture = __fixture('pour-add');
         respondWith(this.server, this.fixture);
         respondWith(this.server, __fixture('pours-three'));
-
         visit('/addPour');
-        fillIn('input.brewery', "Cigar City");
-        // keyEvent('input.brewery', 'keypress', 67);
-        // keyEvent('input.brewery', 'keypress', 40);
-        // keyEvent('input.brewery', 'keypress', 13);        
+        keyEvent('input.brewery', 'keypress', 67);
+        keyEvent('input.brewery', 'keypress', 40);
+        keyEvent('input.brewery', 'keypress', 13);        
         fillIn('input.beerName', this.fixture.request.json.pour.beerName);
         fillIn('input.venue', this.fixture.request.json.pour.venue);
         click('button.rating' + this.fixture.request.json.pour.beerRating);
