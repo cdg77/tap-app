@@ -198,8 +198,6 @@ describe('server', function() {
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
-      console.log(json.user);
-      console.log(fixture.response.json.user);
       expect(_.pick(json.user, 'displayName'))
       .to.eql(_.pick(fixture.response.json.user, 'displayName'));
     })
