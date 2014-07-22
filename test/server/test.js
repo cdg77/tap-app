@@ -114,7 +114,6 @@ describe('server', function() {
   it('will not get pours more than a week old', function(done) {
     var fixture = __fixture('pour-old');
     var oldPour = fixture.response.json.pour;
-    // oldPour = _.omit(oldPour, 'id');
     oldPour.userID = 1;
     var twoWeeksAgo = new Date();
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
@@ -123,9 +122,6 @@ describe('server', function() {
     .then(function() { return createUser({ id: 1 }); })
     .then(function(user) {
       return Pour.forge(oldPour).save({ timeOfPour: twoWeeksAgo }, { method: 'insert' });
-    })
-    .then(function(pour) {
-      console.log(pour.toJSON());
     })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
