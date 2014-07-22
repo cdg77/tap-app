@@ -190,16 +190,23 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
-  it.skip('updates user DB entry with user display name', function(done) {
+  it('allows authorized users to update their display name', function(done) {
     var fixture = __fixture('user-displayName-update');
     Promise.resolve()
     .then(function() { return createUser({ id: 1 }); })
-    // .then(function(user) { return createToken(user); })
+    .then(function(user) { return createToken(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
-      this.json = JSON.parse(body);
-      expect(this.json.user).to.eql(fixture.response.json.user);
+      var json = JSON.parse(body);
+      console.log(json.user);
+      console.log(fixture.response.json.user);
+      expect(_.pick(json.user, 'displayName'))
+      .to.eql(_.pick(fixture.response.json.user, 'displayName'));
     })
     .done(function() { done(); }, done);
   });
+
+  it.skip('does not allow unauthorized users to update display name');
+  it.skip('does not allow authorized users to update display name of another user');
+
 });

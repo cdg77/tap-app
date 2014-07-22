@@ -1,14 +1,13 @@
 {
   "request": {
     "method": "PUT",
-    "url": "/api/users",
+    "url": "/api/users/1",
     "headers": {
       "Authorization": "Token 3358c0a6619d430aa1270bafcdf75288"
     },
     "json": {
       "user": {
         "username": "sam",
-        "passwordDigest": "fakeDigest",
         "displayName": "Sam Averett"
       }
     }
@@ -18,7 +17,6 @@
     "json": {
       "user": {
         "username": "sam",
-        "passwordDigest": "fakeDigest",
         "displayName": "Sam Averett"
       }
     }
