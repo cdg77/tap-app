@@ -135,7 +135,7 @@ describe('TapApp', function() {
           expect(find('input.brewery').text().trim()).to.eql('Apex');
         });
       });
-    });   
+    });
   });
 
   describe('when not logged in', function() {
