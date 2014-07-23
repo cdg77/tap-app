@@ -207,7 +207,6 @@ describe('server', function() {
     Promise.resolve()
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
-      console.log(body);
       var json = JSON.parse(body);
       expect(json).to.eql({ error: 'invalid credentials' });
     })
@@ -221,7 +220,6 @@ describe('server', function() {
     .then(function() { return createUser({ id: 1 }); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
-      console.log(body);
       var json = JSON.parse(body);
       expect(json).to.eql({ error: 'not authorized' });
     })

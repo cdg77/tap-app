@@ -70,8 +70,6 @@ api.post('/pours', function(req, res) {
 });
 
 api.put('/users/:id', function(req, res) {
-  console.log(req.auth.user.id);
-  console.log(req.params.id);
   if (req.auth.user.id === parseInt(req.params.id)) {
     var displayName = _.pick(req.body.user, 'displayName').displayName;
     User.where({ id: req.params.id })
