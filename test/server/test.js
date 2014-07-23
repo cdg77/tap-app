@@ -5,9 +5,6 @@ var util = require('util');
 var bluebird = require('bluebird'), Promise = bluebird;
 var request = require('request'),
     requestAsync = bluebird.promisify(request, request);
-var config = require('../../server/config');
-var knexConfig = require('../../knexfile')[config.env];
-var knex = require('knex')(knexConfig);
 
 var app = require('../../server/application');
 var models = require('../../server/models');
@@ -17,6 +14,7 @@ var baseURL = util.format('http://localhost:%d', port);
 var Pour = models.Pour;
 var User = models.User;
 var Token = models.Token;
+var knex = models._knex;
 
 var expect = require('chai').expect;
 
