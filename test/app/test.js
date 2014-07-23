@@ -113,6 +113,15 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(4);
       });
 
+      it('lets the user move to editProfile', function() {
+        click('button.edit-profile');
+        andThen(function() {
+          expect(currentRouteName()).to.eql('editProfile');
+          expect(currentPath()).to.eql('editProfile');
+          expect(currentURL()).to.eql('/editProfile');
+        });
+      });
+
       it('lets the user move from profile to addPour', function() {
         click('a.addPour');
         andThen(function() {
@@ -135,7 +144,7 @@ describe('TapApp', function() {
         visit('/addPour');
         keyEvent('input.brewery', 'keypress', 67);
         keyEvent('input.brewery', 'keypress', 40);
-        keyEvent('input.brewery', 'keypress', 13);        
+        keyEvent('input.brewery', 'keypress', 13);
         fillIn('input.beerName', this.fixture.request.json.pour.beerName);
         fillIn('input.venue', this.fixture.request.json.pour.venue);
         click('button.rating' + this.fixture.request.json.pour.beerRating);

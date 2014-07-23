@@ -1,6 +1,8 @@
-{{input type="text" value=brewery}}
-<ul>
-  {{#each breweryNames}}
-    <li>{{this}}<li>
-  {{/each}}
-</ul>
+{{input class="form-control brewery" type="text" required="true" autofocus="true" placeholder="Brewery" value=brewery}}
+<div class="dropdown open">
+  <ul class="dropdown-menu" role="menu">
+    {{#each breweryNames}}
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);">{{this}}</a></li>
+    {{/each}}
+  </ul>
+</div>
