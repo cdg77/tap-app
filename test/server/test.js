@@ -204,7 +204,30 @@ describe('server', function() {
     .done(function() { done(); }, done);
   });
 
-  it.skip('does not allow unauthorized users to update display name');
-  it.skip('does not allow authorized users to update display name of another user');
+  it('does not allow unauthorized users to update display name', function(done) {
+    var fixture = __fixture('user-displayName-update');
+    Promise.resolve()
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      console.log(body);
+      var json = JSON.parse(body);
+      expect(json).to.eql({ error: 'invalid credentials' });
+    })
+    .done(function() { done(); }, done);
+  });
+  it('does not allow authorized users to update display name of another user', function(done) {
+    var fixture = __fixture('user-displayName-update');
+    Promise.resolve()
+    .then(function() { return createUser({ id: 2 }); })
+    .then(function(user) { return createToken(user); })
+    .then(function() { return createUser({ id: 1 }); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      console.log(body);
+      var json = JSON.parse(body);
+      expect(json).to.eql({ error: 'not authorized' });
+    })
+    .done(function() { done(); }, done);
+  });
 
 });
