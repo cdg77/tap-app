@@ -6,10 +6,10 @@ module.exports = function(TapApp) {
     breweryNames: function() {
       var brewery = this.get('brewery');
       if(!brewery) { return; }
-      return ['Cigar City'].filter(function(name) {
-        return name.match(brewery);
+      var regex = RegExp(brewery, 'i');
+      return ['Cigar City', 'Crux', 'Captain', 'Carlo', 'Caravan'].filter(function(name) {
+        return name.match(regex);
       });
     }.property('brewery')
-
   });
 };
