@@ -10,6 +10,7 @@ TapApp.Router.map(function() {
   this.route('logout');
   this.route('profile');
   this.route('addPour');
+  this.route('editProfile');
 });
 
 require('./pods/autocomplete.js')(TapApp);
