@@ -5,9 +5,6 @@ var util = require('util');
 var bluebird = require('bluebird'), Promise = bluebird;
 var request = require('request'),
     requestAsync = bluebird.promisify(request, request);
-var config = require('../../server/config');
-var knexConfig = require('../../knexfile')[config.env];
-var knex = require('knex')(knexConfig);
 
 var app = require('../../server/application');
 var models = require('../../server/models');
@@ -17,6 +14,7 @@ var baseURL = util.format('http://localhost:%d', port);
 var Pour = models.Pour;
 var User = models.User;
 var Token = models.Token;
+var knex = models._knex;
 
 var expect = require('chai').expect;
 
@@ -198,15 +196,34 @@ describe('server', function() {
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
-      console.log(json.user);
-      console.log(fixture.response.json.user);
       expect(_.pick(json.user, 'displayName'))
       .to.eql(_.pick(fixture.response.json.user, 'displayName'));
     })
     .done(function() { done(); }, done);
   });
 
-  it.skip('does not allow unauthorized users to update display name');
-  it.skip('does not allow authorized users to update display name of another user');
+  it('does not allow unauthorized users to update display name', function(done) {
+    var fixture = __fixture('user-displayName-update');
+    Promise.resolve()
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(json).to.eql({ error: 'invalid credentials' });
+    })
+    .done(function() { done(); }, done);
+  });
+  it('does not allow authorized users to update display name of another user', function(done) {
+    var fixture = __fixture('user-displayName-update');
+    Promise.resolve()
+    .then(function() { return createUser({ id: 2 }); })
+    .then(function(user) { return createToken(user); })
+    .then(function() { return createUser({ id: 1 }); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(json).to.eql({ error: 'not authorized' });
+    })
+    .done(function() { done(); }, done);
+  });
 
 });
