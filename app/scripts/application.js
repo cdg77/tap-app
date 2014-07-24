@@ -20,6 +20,7 @@ require('./pods/edit-profile.js')(TapApp);
 require('./pods/index.js')(TapApp);
 require('./pods/login.js')(TapApp);
 require('./pods/logout.js')(TapApp);
+require('./pods/map-to-venue.js')(TapApp);
 require('./pods/pour.js')(TapApp);
 require('./pods/profile.js')(TapApp);
 require('./pods/signup.js')(TapApp);
@@ -69,13 +70,20 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
 })();
 
 // Google Map
-// (function() {
-//   google.maps.event.addDomListener(window, 'load', function() {
-//     var mapOptions = {
-//       center: new google.maps.LatLng(45.5312541,-122.6670392),
-//       zoom: 12
-//     };
-//     var map = new google.maps.Map(document.getElementById("map-canvas"),
-//         mapOptions);
-//   });
-// })();
+(function() {
+  google.maps.event.addDomListener(window, 'load', function() {
+    var mapOptions = {
+      center: new google.maps.LatLng(45.5312541,-122.6670392),
+      zoom: 12
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"),
+        mapOptions);
+     var marker = new google.maps.Marker({
+        position: mapOptions.center,
+        title:'Hello World!'
+
+      });
+
+    marker.setMap(map);
+  });
+})();

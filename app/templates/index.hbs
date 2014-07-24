@@ -4,7 +4,7 @@
   <li>
     <span {{bind-attr class=":brewery isNewPour:new isOldPour:old isTweenPour:tween"}}>{{brewery}}</span>
     <span {{bind-attr class=":beerName isNewPour:new isOldPour:old isTweenPour:tween"}}>{{beerName}}</span>
-    <span class="venue">at <button class="mapToVenue">{{venue}}</button></span>
+    <span class="venue">at <button class="mapToVenue"class="venue" {{action 'get' on='submit'}}>{{venue}}</button></span>
     <span {{bind-attr class=":beerRating isNewPour:new isOldPour:old isTweenPour:tween"}}> {{ratingDescriptor}}</span>
   </li>
 {{/each}}
