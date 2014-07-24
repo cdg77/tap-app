@@ -69,6 +69,14 @@ api.post('/pours', function(req, res) {
   }).done();
 });
 
+api.get('/users/:id', function(req, res) {
+  User.where({ id: req.params.id })
+  .fetch()
+  .then(function(user) {
+    res.json({ 'user': user.toJSON() });
+  }).done();
+});
+
 api.put('/users/:id', function(req, res) {
   if (req.auth.user.id === parseInt(req.params.id)) {
     var displayName = _.pick(req.body.user, 'displayName').displayName;

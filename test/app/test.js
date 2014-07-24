@@ -44,6 +44,15 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(3);
       });
 
+      it.skip('has fake google map expectations', function() {
+        // TODO: these won't work with the current way that maps are set up. once
+        // maps are set up through actions taken by the user, tests like these will
+        // be useful.
+        // expect(google.maps.Map.called).to.be.true;
+        // expect(google.maps.Map.callCount).to.eql(1);
+        // expect(google.maps.Map.getCall(0).args[1]).to.eql({ center: {}, zoom: 12 });
+      });
+
       it('displays the pour rating with a human friendly message', function() {
         expect(find('ul.pours li:nth-of-type(1) span.beerRating').text().trim()).to.eql('Solid');
         expect(find('ul.pours li:nth-of-type(2) span.beerRating').text().trim()).to.eql('Great');
@@ -111,22 +120,24 @@ describe('TapApp', function() {
     });
 
     it.skip('allows user to customize profile', function() {
-      this.fixture = __fixture('user-displayName-update');
+      this.fixture = __fixture('user-update');
       respondWith(this.server, __fixture('user-existing'));
       visit('/editProfile');
       fillIn('input.displayName', this.fixture.request.json.user.displayName);
       fillIn('input.bio', this.fixture.request.json.user.bio);
       click('button[type="submit"]');
       andThen(function() {
-        expect(this.server.requests.length).to.eql(2);
-        // expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
-        // expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
-        // expect(this.server.requests[0].requestHeaders).to.contain(this.fixture.request.headers);
-        // expect(JSON.parse(this.server.requests[0].requestBody)).to.eql(this.fixture.request.json);
-        // expect(currentRouteName()).to.eql('profile');
+        // expect(this.server.requests.length).to.eql(3);
+        expect(this.server.requests[1].method).to.eql(this.fixture.request.method);
+        expect(this.server.requests[1].url).to.eql(this.fixture.request.url);
+        expect(this.server.requests[1].requestHeaders).to.contain(this.fixture.request.headers);
+        console.log(JSON.parse(this.server.requests[1].requestBody));
+        console.log(this.fixture.request.json);
+        // expect(JSON.parse(this.server.requests[1].requestBody)).to.eql(this.fixture.request.json);
+        expect(currentRouteName()).to.eql('profile');
         // expect(currentPath()).to.eql('profile');
         // expect(currentURL()).to.eql('profile');
-      });
+      }.bind(this));
     });
 
     //TODO: Test to see that non-authenticated user can't add pour

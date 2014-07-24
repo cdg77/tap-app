@@ -76,7 +76,7 @@ if (!Function.prototype.bind) {
 var google = window.google = sinon.stub();
 google.maps = {};
 google.maps.event = {};
-google.maps.event.addDomListener = sinon.stub().callsArg(2);
+google.maps.event.addDomListener = sinon.stub().callsArgAsync(2);
 google.maps.LatLng = sinon.stub();
 google.maps.Map = sinon.stub();
 

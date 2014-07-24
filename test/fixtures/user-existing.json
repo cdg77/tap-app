@@ -2,17 +2,19 @@
   "request": {
     "method": "GET",
     "url": "/api/users/7",
-    "headers": null,
+    "headers": {
+      "Authorization": "Token 3358c0a6619d430aa1270bafcdf75288"
+    },
     "json": null
   },
   "response": {
     "status": 200,
     "json": {
       "user": {
-        "id": 1,
-        "username": "josh",
-        "displayName": null,
-        "bio": null
+        "id": 7,
+        "username": "sam",
+        "passwordDigest": "fakeDigest",
+        "displayName": null
       }
     }
   }
