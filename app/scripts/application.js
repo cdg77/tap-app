@@ -75,7 +75,12 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
       center: new google.maps.LatLng(45.5312541,-122.6670392),
       zoom: 12
     };
-    var map = new google.maps.Map(document.getElementById("map-canvas"),
-        mapOptions);
+    // TODO: this timeout waits a second to ensure that the template has been
+    // rendered before displaying the map. eventually, this code will probably
+    // move elsewhere, so it shouldn't matter.
+    setTimeout(function() {
+      var map = new google.maps.Map(document.getElementById("map-canvas"),
+          mapOptions);
+    }, 1000);
   });
 })();
