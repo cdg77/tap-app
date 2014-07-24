@@ -67,6 +67,15 @@ describe('TapApp', function() {
         });
       });
 
+      it.skip('clicking the venue button links to a template of a map showing the location of that venue', function() {
+        click('mapToVenue');
+        andThen(function() {
+          expect(currentRouteName()).to.eql('mapToVenue');
+          expect(currentPath()).to.eql('mapToVenue');
+          expect(currentURL()).to.eql('/mapToVenue');
+        });
+      });
+
       describe('api requests', function() {
         it('makes a single request', function() {
           expect(this.server.requests.length).to.eql(1);
