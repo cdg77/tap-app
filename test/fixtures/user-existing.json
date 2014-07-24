@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/users/7",
+    "headers": null,
+    "json": null
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "user": {
+        "id": 1,
+        "username": "josh",
+        "displayName": null,
+        "bio": null
+      }
+    }
+  }
+}
