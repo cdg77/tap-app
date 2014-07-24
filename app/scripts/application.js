@@ -105,11 +105,44 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
     setTimeout(function() {
       var map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
-      var marker = new google.maps.Marker({
-        position: mapOptions.center,
-        title:'Hello World!'
-      });
-    marker.setMap(map);
+    //   var marker = new google.maps.Marker({
+    //     position: mapOptions.center,
+    //     title:'Whats on Tap?!'
+    //   });
+    // marker.setMap(map);
+    var infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+
+      service.getDetails(request, function(place, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          infowindow.setContent(place.name);
+        infowindow.open(map, this);
+        marker.setMap(map);
+      }
   });
     }, 1000);
 })();
+
+// var infowindow = new google.maps.InfoWindow();
+//   var service = new google.maps.places.PlacesService(map);
+
+//   service.getDetails(request, function(place, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//       var marker = new google.maps.Marker({
+//         map: map,
+//         position: place.geometry.location
+//       });
+//       google.maps.event.addListener(marker, 'click', function() {
+//         infowindow.setContent(place.name);
+//         infowindow.open(map, this);
+//       });
+//     }
+//   });
+// }
+
+
+
