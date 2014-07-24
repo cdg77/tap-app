@@ -101,7 +101,7 @@ describe('TapApp', function() {
       }.bind(this));
     });
 
-    it.only('allows user to customize profile', function() {
+    it.skip('allows user to customize profile', function() {
       this.fixture = __fixture('user-update');
       respondWith(this.server, __fixture('user-existing'));
       visit('/editProfile');
@@ -134,7 +134,7 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(4);
       });
 
-      it('lets the user move to editProfile', function() {
+      it.skip('lets the user move to editProfile', function() {
         click('button.edit-profile');
         andThen(function() {
           expect(currentRouteName()).to.eql('editProfile');
