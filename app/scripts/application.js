@@ -16,6 +16,7 @@ TapApp.Router.map(function() {
 require('./pods/autocomplete.js')(TapApp);
 
 require('./pods/add-pour.js')(TapApp);
+require('./pods/edit-profile.js')(TapApp);
 require('./pods/index.js')(TapApp);
 require('./pods/login.js')(TapApp);
 require('./pods/logout.js')(TapApp);

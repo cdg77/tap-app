@@ -1,0 +1,19 @@
+<div class="content">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1>Customize Your Profile</h1>
+      <form {{action 'post' on='submit'}}>
+        <div class="form-group">
+          {{focus-input class="form-control displayName" type="post" required="false" autofocus="true" placeholder="Your Name" value=displayName}}
+        </div>
+        <div class="form-group">
+          {{input class="form-control bio" type="post" required="false" placeholder="A Short Bio" value=bio}}
+        </div>
+        <button class="btn btn-primary" type="submit">Customize Your Profile</button>
+        {{#if error}}<div>Error: {{error}}.</div>{{/if}}
+      </form>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>

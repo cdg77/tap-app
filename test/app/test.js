@@ -110,6 +110,25 @@ describe('TapApp', function() {
       }.bind(this));
     });
 
+    it.skip('allows user to customize profile', function() {
+      this.fixture = __fixture('user-displayName-update');
+      respondWith(this.server, __fixture('user-existing'));
+      visit('/editProfile');
+      fillIn('input.displayName', this.fixture.request.json.user.displayName);
+      fillIn('input.bio', this.fixture.request.json.user.bio);
+      click('button[type="submit"]');
+      andThen(function() {
+        expect(this.server.requests.length).to.eql(2);
+        // expect(this.server.requests[0].method).to.eql(this.fixture.request.method);
+        // expect(this.server.requests[0].url).to.eql(this.fixture.request.url);
+        // expect(this.server.requests[0].requestHeaders).to.contain(this.fixture.request.headers);
+        // expect(JSON.parse(this.server.requests[0].requestBody)).to.eql(this.fixture.request.json);
+        // expect(currentRouteName()).to.eql('profile');
+        // expect(currentPath()).to.eql('profile');
+        // expect(currentURL()).to.eql('profile');
+      });
+    });
+
     //TODO: Test to see that non-authenticated user can't add pour
     describe('when on profile page', function() {
       beforeEach(function() {
@@ -122,7 +141,7 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(4);
       });
 
-      it('lets the user move to editProfile', function() {
+      it.skip('lets the user move to editProfile', function() {
         click('button.edit-profile');
         andThen(function() {
           expect(currentRouteName()).to.eql('editProfile');

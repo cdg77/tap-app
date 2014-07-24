@@ -73,7 +73,10 @@ if (!Function.prototype.bind) {
   };
 }
 
-var google = window.google = sinon.mock();
+var google = window.google = sinon.stub();
 google.maps = {};
 google.maps.event = {};
-google.maps.event.addDomListener = sinon.mock();
+google.maps.event.addDomListener = sinon.stub().callsArg(2);
+google.maps.LatLng = sinon.stub();
+google.maps.Map = sinon.stub();
+
