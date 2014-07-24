@@ -109,7 +109,7 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
-  it.skip('will get a specified user', function(done) {
+  it('will get a specified user', function(done) {
     var fixture = __fixture('user-existing');
     Promise.resolve()
     .then(function() { return createUser({ id: 7 }); })
@@ -117,6 +117,8 @@ describe('server', function() {
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
       var json = JSON.parse(body);
+      console.log(json);
+      console.log(fixture.response.json);
       expect(json).to.eql(fixture.response.json);
     })
     .done(function() { done(); }, done);

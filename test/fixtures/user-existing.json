@@ -11,10 +11,10 @@
     "status": 200,
     "json": {
       "user": {
-        "id": 1,
+        "id": 7,
         "username": "sam",
-        "displayName": null,
-        "bio": null
+        "passwordDigest": "fakeDigest",
+        "displayName": null
       }
     }
   }
