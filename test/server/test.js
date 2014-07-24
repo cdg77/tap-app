@@ -109,6 +109,18 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
+  it.skip('will get a specified user', function(done) {
+    var fixture = __fixture('user-existing');
+    Promise.resolve()
+    .then(function() { return createUser({ id: 7 }); })
+    .then(function(user) { return createToken(user); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      var json = JSON.parse(body);
+      expect(json).to.eql(fixture.response.json);
+    })
+    .done(function() { done(); }, done);
+  });
   it('will not get pours more than a week old', function(done) {
     var fixture = __fixture('pour-old');
     var oldPour = fixture.response.json.pour;
@@ -189,7 +201,7 @@ describe('server', function() {
     .done(function() { done(); }, done);
   });
   it('allows authorized users to update their display name', function(done) {
-    var fixture = __fixture('user-displayName-update');
+    var fixture = __fixture('user-update');
     Promise.resolve()
     .then(function() { return createUser({ id: 1 }); })
     .then(function(user) { return createToken(user); })
@@ -203,7 +215,7 @@ describe('server', function() {
   });
 
   it('does not allow unauthorized users to update display name', function(done) {
-    var fixture = __fixture('user-displayName-update');
+    var fixture = __fixture('user-update');
     Promise.resolve()
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {
@@ -213,7 +225,7 @@ describe('server', function() {
     .done(function() { done(); }, done);
   });
   it('does not allow authorized users to update display name of another user', function(done) {
-    var fixture = __fixture('user-displayName-update');
+    var fixture = __fixture('user-update');
     Promise.resolve()
     .then(function() { return createUser({ id: 2 }); })
     .then(function(user) { return createToken(user); })

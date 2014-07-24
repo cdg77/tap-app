@@ -69,13 +69,13 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
 })();
 
 // Google Map
-(function() {
-  google.maps.event.addDomListener(window, 'load', function() {
-    var mapOptions = {
-      center: new google.maps.LatLng(45.5312541,-122.6670392),
-      zoom: 12
-    };
-    var map = new google.maps.Map(document.getElementById("map-canvas"),
-        mapOptions);
-  });
-})();
+// (function() {
+//   google.maps.event.addDomListener(window, 'load', function() {
+//     var mapOptions = {
+//       center: new google.maps.LatLng(45.5312541,-122.6670392),
+//       zoom: 12
+//     };
+//     var map = new google.maps.Map(document.getElementById("map-canvas"),
+//         mapOptions);
+//   });
+// })();
