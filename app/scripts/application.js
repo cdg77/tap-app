@@ -29,6 +29,17 @@ TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
 
+TapApp.ApplicationRoute = Ember.Route.extend({
+  renderTemplate: function() {
+    this._super();
+    Ember.run.schedule('afterRender', function() {
+      if (window.twttr) {
+        window.twttr.widgets.load();
+      }
+    });
+  }
+});
+
 // https://github.com/twbs/bootstrap/issues/9013
 $(document).on('click.nav', '.navbar-collapse.in', function(e) {
   if($(e.target).is('a') || $(e.target).is('button')) {
