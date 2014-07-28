@@ -1,6 +1,9 @@
+<h3>Display Name: {{user.displayName}}</h3>
+<h3>Bio: {{user.bio}}</h3>
+
 <h1>Pours You've Shared</h1>
 <ul class="pours">
-{{#each}}
+{{#each pours}}
   <li>
     {{#if isNewPour}}
       <span class="brewery new">{{brewery}}</span>
