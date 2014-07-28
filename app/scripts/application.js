@@ -29,6 +29,17 @@ TapApp.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
 
+TapApp.ApplicationRoute = Ember.Route.extend({
+  renderTemplate: function() {
+    this._super();
+    Ember.run.schedule('afterRender', function() {
+      if (window.twttr) {
+        window.twttr.widgets.load();
+      }
+    });
+  }
+});
+
 // https://github.com/twbs/bootstrap/issues/9013
 $(document).on('click.nav', '.navbar-collapse.in', function(e) {
   if($(e.target).is('a') || $(e.target).is('button')) {
@@ -50,16 +61,27 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
   }.on('didInsertElement')
 });
 
+// TODO: replace 0000000000000000 app id below
 // Facebook Button
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) { return; }
-  js = d.createElement(s); js.id = id;
-  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0';
+  js = d.createElement(s);
+  js.id = id;
+  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0&appId=0000000000000000';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
 // Twitter Button
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js = d.createElement(s);
+    js.id = id;
+    js.src='https://platform.twitter.com/widgets.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }
+}(document,'script','twitter-wjs'));
 
 // Google+ Button
 (function() {
@@ -75,7 +97,13 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
       center: new google.maps.LatLng(45.5312541,-122.6670392),
       zoom: 12
     };
-    var map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+
+    // TODO: this timeout waits a second to ensure that the template has been
+    // rendered before displaying the map. eventually, this code will probably
+    // move elsewhere, so it shouldn't matter.
+    setTimeout(function() {
+      var map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+    }, 1000);
   });
 })();
