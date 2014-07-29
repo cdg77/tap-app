@@ -136,6 +136,7 @@ describe('TapApp', function() {
       beforeEach(function() {
         this.fixture = __fixture('pours-by-profile');
         respondWith(this.server, this.fixture);
+        respondWith(this.server, __fixture('user-existing'));
         visit('/profile');
       });
 
