@@ -1,8 +1,8 @@
 {{input class="form-control brewery" list='breweryNames' type="text" required="true" autofocus="true" placeholder="Brewery" value=brewery}}
 <div {{bind-attr class=":dropdown isMatch:open"}}>
-  <datalist id='breweryNames' class="dropdown-menu" role="menu">
+  <ul id='breweryNames' class="dropdown-menu" role="menu">
     {{#each breweryNames}}
-      <option role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);">{{this}}</a></option>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);">{{this}}</a></li>
     {{/each}}
-  </datalist>
+  </ul>
 </div>
