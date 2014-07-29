@@ -53,14 +53,14 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
   }.on('didInsertElement')
 });
 
-// TODO: replace 0000000000000000 app id below
+// TODO: add &appId=0000000000000000 below
 // Facebook Button
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) { return; }
   js = d.createElement(s);
   js.id = id;
-  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0&appId=0000000000000000';
+  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
