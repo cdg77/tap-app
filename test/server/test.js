@@ -205,7 +205,7 @@ describe('server', function() {
   it('allows authorized users to update their display name', function(done) {
     var fixture = __fixture('user-update');
     Promise.resolve()
-    .then(function() { return createUser({ id: 1 }); })
+    .then(function() { return createUser({ id: 7 }); })
     .then(function(user) { return createToken(user); })
     .then(function() { return requestFixture(fixture); })
     .spread(function(response, body) {

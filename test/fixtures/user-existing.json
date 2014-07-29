@@ -14,7 +14,8 @@
         "id": 7,
         "username": "sam",
         "passwordDigest": "fakeDigest",
-        "displayName": null
+        "displayName": null,
+        "bio": null
       }
     }
   }

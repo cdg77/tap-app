@@ -80,10 +80,14 @@ api.get('/users/:id', function(req, res) {
 api.put('/users/:id', function(req, res) {
   if (req.auth.user.id === parseInt(req.params.id)) {
     var displayName = _.pick(req.body.user, 'displayName').displayName;
+    var bio = _.pick(req.body.user, 'bio').bio;
     User.where({ id: req.params.id })
     .fetch()
     .then(function(user) {
-      user.set({ displayName: displayName });
+      user.set({
+        displayName: displayName,
+        bio: bio
+      });
       return user.save();
     })
     .then(function(user) {
