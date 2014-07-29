@@ -1,8 +1,14 @@
-<h3>Display Name: {{user.displayName}}</h3>
-<h3>Bio: {{user.bio}}</h3>
+{{#if user.displayName}}
+  <br>
+  <div class="profile">
+    <h3>{{user.displayName}}</h3>
+    <p>"{{user.bio}}"</p>
+  </div>
+{{/if}}
+<br>
 {{#link-to 'editProfile'}}<button class="btn btn-primary edit-profile">Edit Profile</button>{{/link-to}}
 
-<h1>Pours You've Shared</h1>
+<h2>Your Pours</h2>
 <ul class="pours">
 {{#each pours}}
   <li>
