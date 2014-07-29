@@ -5,22 +5,28 @@ module.exports = function(TapApp) {
   TapApp.AutocompleteController = Ember.ObjectController.extend({
     itemController: 'pour.brewery',
     brewery: null,
+        //stores names of breweries after server responds
     allBreweryNames: [],
-      //stores names of breweries after server responds
-
     requestMatchingBreweries: function() {
       var brewery = this.get('brewery');
       var self = this;
       this.makeAsyncHTTPRequest(brewery).then(function(newBreweries) {
+        console.log(newBreweries);
         self.handleNewBreweries(newBreweries);
       });
 
       //requests breweries with names matching user input per
       //defined criteria
 
-    },
+    }.observes('brewery'),
+
     handleNewBreweries: function(newBreweries) {
       //routes brewery names to allBreweryNames
+      console.log('handling new breweries');
+      var allBreweryNames = this.get('allBreweryNames')
+        .concat(newBreweries);
+      this.set('allBreweryNames', allBreweryNames);
+      console.log('allBreweryNames:' + allBreweryNames);
     },
     breweryNames: function() {
       var brewery = this.get('brewery');
