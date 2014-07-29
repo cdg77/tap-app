@@ -25,6 +25,9 @@ module.exports = function(TapApp) {
       console.log('handling new breweries');
       var allBreweryNames = this.get('allBreweryNames')
         .concat(newBreweries);
+      allBreweryNames = allBreweryNames.filter(function(elem, pos) {
+        return allBreweryNames.indexOf(elem) == pos;
+      });
       this.set('allBreweryNames', allBreweryNames);
       console.log('allBreweryNames:' + allBreweryNames);
     },
