@@ -94,24 +94,12 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
 // Google Map
 (function() {
   google.maps.event.addDomListener(window, 'load', function() {
-    var mapOptions = {
-      center: new google.maps.LatLng(45.5312541,-122.6670392),
-      zoom: 12
-    };
-
     // TODO: this timeout waits a second to ensure that the template has been
     // rendered before displaying the map. eventually, this code will probably
     // move elsewhere, so it shouldn't matter.
-    setTimeout(function() {
-      var map = new google.maps.Map(document.getElementById('map-canvas'),
-          mapOptions);
-    //   var marker = new google.maps.Marker({
-    //     position: mapOptions.center,
-    //     title:'Whats on Tap?!'
-    //   });
-    // marker.setMap(map);
+
     var infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
+    var service = new google.maps.places.PlacesService(map);
 
       service.getDetails(request, function(place, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -119,12 +107,22 @@ TapApp.FocusInputComponent = Ember.TextField.extend({
             map: map,
             position: place.geometry.location
           });
-          infowindow.setContent(place.name);
+
+      var mapOptions = {
+        center: new google.maps.LatLng(45.5312541,-122.6670392),
+        zoom: 12
+      };
+
+        infowindow.setContent(place.name);
         infowindow.open(map, this);
         marker.setMap(map);
       }
   });
+    setTimeout(function() {
+      var map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
     }, 1000);
+  });
 })();
 
 // var infowindow = new google.maps.InfoWindow();
