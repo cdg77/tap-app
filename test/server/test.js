@@ -239,5 +239,30 @@ describe('server', function() {
     })
     .done(function() { done(); }, done);
   });
+  it.skip('will get names of breweries when queried', function(done) {
+    var fixture = __fixture('breweries');
+    var request = fixture.request;
+    var createPours = function(user) {
+      var promises = fixture.db.pours.map(function(pour) {
+        pour = _.omit(pour, 'id');
+        pour.userID = user.id;
+        return Pour.forge(pour).save();
+      });
+      return Promise.all(promises);
+    };
+
+    Promise.resolve()
+    .then(function() { return createUser({ id: 1 }); })
+    .then(function(user) { return createPours(user); })
+    .then(function(user) { return createToken(user); })
+    .then(function() { return requestFixture(fixture); })
+    .spread(function(response, body) {
+      console.log(body);
+      var json = JSON.parse(body);
+      console.log(json);
+      expect(json).to.eql(fixture.response.json);
+    })
+    .done(function() { done(); }, done);
+  });
 
 });

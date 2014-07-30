@@ -52,7 +52,6 @@ api.get('/pours', function(req, res) {
   }).done();
 });
 
-
 // all routes defined from here on will require authorization
 api.use(admit.authorize);
 api.delete('/sessions/current', admit.invalidate, function(req, res) {
@@ -74,6 +73,23 @@ api.get('/users/:id', function(req, res) {
   .fetch()
   .then(function(user) {
     res.json({ 'user': user.toJSON() });
+  }).done();
+});
+
+api.get('/breweries/search', function(req, res) {
+  var userInput = req.query.q;
+  // TODO: how does distinct work with bookshelf/kenx so that
+  // you don't acutally do a `select distinct brewery, pours.*`
+  // which returns all of the pours?
+  // select distinct brewery from pours;
+  Pour//.query(function(q) { q.distinct('brewery'); })
+  .query('where', 'brewery', 'ilike', userInput + '%')
+  .fetchAll()
+  .then(function(breweries) {
+    var names = _.pluck(breweries.toJSON(), 'brewery');
+    res.json({'names': _.uniq(names)});
+    console.log(names);
+
   }).done();
 });
 

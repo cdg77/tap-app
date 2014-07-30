@@ -5,7 +5,7 @@
       <h1>Add A Pour</h1>
       <form {{action 'post' on='submit'}}>
         <div class="form-group">
-          {{render 'autocomplete'}}
+          {{!-- {{render 'autocomplete'}} --}}
           {{!-- TODO: remove the next one in favor of the auto-complete --}}
           {{focus-input class="form-control brewery" type="post" required="true" autofocus="true" placeholder="Brewery" value=brewery}}
         </div>

@@ -5,7 +5,6 @@ module.exports = function(TapApp) {
   TapApp.AutocompleteController = Ember.ObjectController.extend({
     itemController: 'pour.brewery',
     userInput: null,
-        //stores names of breweries after server responds
     allBreweryNames: [],
     requestMatchingBreweries: function() {
       var userInput = this.get('userInput');
@@ -21,13 +20,17 @@ module.exports = function(TapApp) {
     }.observes('userInput'),
 
     handleNewBreweries: function(newBreweries) {
-      //routes brewery names to allBreweryNames
       console.log('handling new breweries');
       var allBreweryNames = this.get('allBreweryNames')
-        .concat(newBreweries);
-      allBreweryNames = allBreweryNames.filter(function(elem, pos) {
-        return allBreweryNames.indexOf(elem) == pos;
-      });
+        .concat(newBreweries).uniq();
+      // var breweriesByName = {};
+      // allBreweryNames.forEach(function(brewery) {
+      //   breweriesByName[brewery] = brewery;
+      // });
+      // allBreweryNames = Object.keys(breweriesByName);
+      // allBreweryNames = allBreweryNames.filter(function(elem, pos) {
+      //   return allBreweryNames.indexOf(elem) == pos;
+      // });
       this.set('allBreweryNames', allBreweryNames);
       console.log('allBreweryNames:' + allBreweryNames);
     },
@@ -36,7 +39,6 @@ module.exports = function(TapApp) {
       console.log('LOG1:' + userInput);
       if(!userInput) { return []; }
       var regex = new RegExp(userInput, 'i');
-
       return this.get('allBreweryNames').filter(function(name) {
         console.log('LOG3:' + name);
         return name.match(regex);
@@ -48,7 +50,6 @@ module.exports = function(TapApp) {
     }.property('breweryNames')
   });
 
-
   // dear sam, this is code that you should not worry about.
   TapApp.AutocompleteController.reopen({
 
@@ -57,7 +58,7 @@ module.exports = function(TapApp) {
       var duration = 0;
       if (userInput.match(/[a-j]/i)) {
         console.log('getting real names');
-        data = ['Elysian', 'Bridgeport', 'Breakside'];
+        data = ['Elysian', 'Bridgeport', 'Breakside', 'Bridgeport Brewing'];
         duration = 300;
       }
       else if (userInput.match(/[j-r]/i)) {
@@ -78,5 +79,4 @@ module.exports = function(TapApp) {
       });
     }
   });
-
 };

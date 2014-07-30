@@ -14,6 +14,7 @@ module.exports = {
 
   // NODE_ENV='test' ./node_modules/.bin/knex migrate:latest
   test: {
+    // debug: true,
     client: 'postgres',
     connection: {
       database : 'tap-app-test'
