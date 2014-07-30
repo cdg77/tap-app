@@ -6,15 +6,14 @@ module.exports = function(TapApp) {
   });
 
   TapApp.MapToVenueRoute = Ember.Route.extend({
-    model: function() {
-      return this.store.find('venue');
+    model: function(params) {
+      console.log(params);
+      return { venue: params.venueName };
+      // return this.store.find('venue');
     }
   });
 
-  TapApp.MapToVenueController = Ember.ArrayController.extend({
-    itemController: 'pour',
-    sortProperties: ['timeOfPour'],
-    sortAscending: false
+  TapApp.MapToVenueController = Ember.ObjectController.extend({
   });
 
 // Google Map

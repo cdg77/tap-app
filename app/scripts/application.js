@@ -11,7 +11,7 @@ TapApp.Router.map(function() {
   this.route('profile');
   this.route('addPour');
   this.route('editProfile');
-  this.route('mapToVenue');
+  this.route('mapToVenue', { path: '/venue/:venueName' });
 });
 
 require('./pods/autocomplete.js')(TapApp);
