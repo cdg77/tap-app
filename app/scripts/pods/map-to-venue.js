@@ -7,8 +7,9 @@ module.exports = function(TapApp) {
 
   TapApp.MapToVenueRoute = Ember.Route.extend({
     model: function(params) {
+      var venue;
       console.log(params);
-      return { venue: params.venueName };
+      return  venue = { venue: params.venueName };
       // return this.store.find('venue');
     }
   });
