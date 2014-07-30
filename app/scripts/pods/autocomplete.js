@@ -4,13 +4,13 @@ module.exports = function(TapApp) {
 
   TapApp.AutocompleteController = Ember.ObjectController.extend({
     itemController: 'pour.brewery',
-    brewery: null,
+    userInput: null,
         //stores names of breweries after server responds
     allBreweryNames: [],
     requestMatchingBreweries: function() {
-      var brewery = this.get('brewery');
+      var userInput = this.get('userInput');
       var self = this;
-      this.makeAsyncHTTPRequest(brewery).then(function(newBreweries) {
+      this.makeAsyncHTTPRequest(userInput).then(function(newBreweries) {
         console.log(newBreweries);
         self.handleNewBreweries(newBreweries);
       });
@@ -18,27 +18,30 @@ module.exports = function(TapApp) {
       //requests breweries with names matching user input per
       //defined criteria
 
-    }.observes('brewery'),
+    }.observes('userInput'),
 
     handleNewBreweries: function(newBreweries) {
       //routes brewery names to allBreweryNames
       console.log('handling new breweries');
       var allBreweryNames = this.get('allBreweryNames')
         .concat(newBreweries);
+      allBreweryNames = allBreweryNames.filter(function(elem, pos) {
+        return allBreweryNames.indexOf(elem) == pos;
+      });
       this.set('allBreweryNames', allBreweryNames);
       console.log('allBreweryNames:' + allBreweryNames);
     },
     breweryNames: function() {
-      var brewery = this.get('brewery');
-      console.log('LOG1:' + brewery);
-      if(!brewery) { return []; }
-      var regex = new RegExp(brewery, 'i');
+      var userInput = this.get('userInput');
+      console.log('LOG1:' + userInput);
+      if(!userInput) { return []; }
+      var regex = new RegExp(userInput, 'i');
 
       return this.get('allBreweryNames').filter(function(name) {
         console.log('LOG3:' + name);
         return name.match(regex);
       });
-    }.property('brewery', 'allBreweryNames'),
+    }.property('userInput', 'allBreweryNames'),
     isMatch: function() {
       var breweryNames = this.get('breweryNames');
       if(breweryNames.length >= 1) { return true; }
@@ -49,20 +52,20 @@ module.exports = function(TapApp) {
   // dear sam, this is code that you should not worry about.
   TapApp.AutocompleteController.reopen({
 
-    makeAsyncHTTPRequest: function(brewery) {
+    makeAsyncHTTPRequest: function(userInput) {
       var data = [];
       var duration = 0;
-      if (brewery.match(/[a-j]/i)) {
+      if (userInput.match(/[a-j]/i)) {
         console.log('getting real names');
-        data = ['Elysian', 'Bridgeport'];
+        data = ['Elysian', 'Bridgeport', 'Breakside'];
         duration = 300;
       }
-      else if (brewery.match(/[j-r]/i)) {
+      else if (userInput.match(/[j-r]/i)) {
         console.log('getting people names');
         data = ['Sam', 'Whit'];
         duration = 500;
       }
-      else if (brewery.match(/[r-z]/i)) {
+      else if (userInput.match(/[r-z]/i)) {
         console.log('getting letter based names');
         data = ['RR', 'SS', 'TT', 'UU', 'VV', 'WW', 'XX', 'YY', 'ZZ'];
         duration = 2000;
