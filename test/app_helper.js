@@ -73,10 +73,67 @@ if (!Function.prototype.bind) {
   };
 }
 
-var google = window.google = sinon.stub();
-google.maps = {};
-google.maps.event = {};
-google.maps.event.addDomListener = sinon.stub().callsArgAsync(2);
-google.maps.LatLng = sinon.stub();
-google.maps.Map = sinon.stub();
+
+Ember.Application.initializer({
+  name: 'google-stubs',
+  initialize: function(container, application) {
+    var google = window.google = {};
+    google.maps = {};
+    google.maps.MapTypeId = {
+      ROADMAP: 'roadmap'
+    };
+    google.maps.Animation = {
+      DROP: 'drop'
+    };
+    google.stubs = {};
+    google.stubs.map = {};
+    google.stubs.map.fitBounds = sinon.stub();
+    google.stubs.marker = {};
+    google.stubs.marker.setMap = sinon.stub();
+    google.stubs.event = {};
+    google.stubs.event.latLng = {};
+    google.stubs.event.latLng.lat = sinon.stub().returns(45.5328930);
+    google.stubs.event.latLng.lng = sinon.stub().returns(-122.6892520);
+    google.stubs.place = {};
+    google.stubs.place.geometry = {
+      viewport: '???',
+      location: '???'
+    };
+    google.stubs.autocomplete = {};
+    google.stubs.autocomplete.getPlace = sinon.stub().returns(google.stubs.place);
+    google.maps.LatLng = sinon.stub();
+    google.maps.Map = sinon.stub().returns(google.stubs.map);
+    google.maps.Marker = sinon.stub().returns(google.stubs.marker);
+    google.maps.event = {};
+    google.maps.event.addListener = sinon.stub().callsArgWithAsync(2, google.stubs.event);
+    google.maps.places = {};
+    google.maps.places.Autocomplete = sinon.stub().returns(google.stubs.autocomplete);
+  }
+});
+
+// terrible hack from https://github.com/ariya/phantomjs/issues/10522
+// this is required to fix bind on phantomjs
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== "function") {
+      // closest thing possible to the ECMAScript 5 internal IsCallable function
+      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+    }
+
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        fNOP = function () {},
+        fBound = function () {
+          return fToBind.apply(this instanceof fNOP && oThis
+                                 ? this
+                                 : oThis,
+                               aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
+
+    return fBound;
+  };
+}
 
