@@ -17,7 +17,10 @@ module.exports = function(TapApp) {
         this.set('error', undefined);
         this.get('model').save() // create the user
         .then(function() {
-          session.login({ username: self.get('model.username') });
+          session.login({
+            username: self.get('model.username'),
+            id: self.get('model.id')
+          });
           self.transitionToRoute('index');
         })
         .catch(function(error) {
