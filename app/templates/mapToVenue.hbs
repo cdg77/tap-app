@@ -3,3 +3,18 @@
 {{!-- <button class="mapToVenue"class="venue" {{action 'get' on='submit'}}>{{venue}}</button> --}}
 
 {{venue}}
+
+
+  <input id="pac-input" class="controls" type="text"
+      placeholder="Enter a location">
+  <div id="type-selector" class="controls">
+    <input type="radio" name="type" id="changetype-all" checked="checked">
+    <label for="changetype-all">All</label>
+
+    <input type="radio" name="type" id="changetype-establishment">
+    <label for="changetype-establishment">Find Taps</label>
+
+   {{!--  <input type="radio" name="type" id="changetype-geocode">
+    <label for="changetype-geocode">Geocodes</label> --}}
+  </div>
+  <div id="map-canvas"></div>

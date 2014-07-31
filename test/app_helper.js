@@ -87,9 +87,12 @@ Ember.Application.initializer({
     };
     google.stubs = {};
     google.stubs.map = {};
+    google.stubs.maps = {};
     google.stubs.map.fitBounds = sinon.stub();
     google.stubs.marker = {};
     google.stubs.marker.setMap = sinon.stub();
+    google.stubs.marker.setPosition = sinon.stub();
+    google.stubs.marker.setVisible = sinon.stub().returns(true);
     google.stubs.event = {};
     google.stubs.event.latLng = {};
     google.stubs.event.latLng.lat = sinon.stub().returns(45.5328930);
@@ -108,9 +111,10 @@ Ember.Application.initializer({
     google.maps.event.addListener = sinon.stub().callsArgWithAsync(2, google.stubs.event);
     google.maps.places = {};
     google.maps.places.Autocomplete = sinon.stub().returns(google.stubs.autocomplete);
+    google.maps.Point = {};
+    google.maps.Point = sinon.stub();
   }
 });
-
 // terrible hack from https://github.com/ariya/phantomjs/issues/10522
 // this is required to fix bind on phantomjs
 if (!Function.prototype.bind) {
