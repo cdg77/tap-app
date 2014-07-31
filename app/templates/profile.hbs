@@ -1,6 +1,16 @@
-<h1>Pours You've Shared</h1>
+{{#if user.displayName}}
+  <br>
+  <div class="profile">
+    <h3>{{user.displayName}}</h3>
+    <p>"{{user.bio}}"</p>
+  </div>
+{{/if}}
+<br>
+{{#link-to 'editProfile'}}<button class="btn btn-primary edit-profile">Edit Profile</button>{{/link-to}}
+
+<h2>Your Pours</h2>
 <ul class="pours">
-{{#each}}
+{{#each pours}}
   <li>
     {{#if isNewPour}}
       <span class="brewery new">{{brewery}}</span>
@@ -23,5 +33,3 @@
   </li>
 {{/each}}
 </ul>
-<br>
-{{#link-to 'editProfile'}}<button class="btn btn-primary edit-profile">Edit Profile</button>{{/link-to}}

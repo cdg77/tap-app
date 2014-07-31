@@ -109,6 +109,14 @@ ul.pours span.beerRating.old {
   padding: 0em 0.3em 0em 0.3em;
 }
 
+div.profile {
+  background-color: #e1e1e3;
+  width: 300px;
+  text-align: center;
+  border: 2px solid;
+  border-radius: 5px;
+}
+
 .form-auth {
   max-width: 330px;
   padding: 15px;
@@ -155,12 +163,14 @@ ul.pours span.beerRating.old {
 
 footer {
   position: fixed;
-  bottom: 5px;
+  bottom: 0px;
   align: left;
-  margin-left: 94px;
   background-color: white;
+  padding: 1.4em 4em;
+  width: 100%;
+  border-top: 1px solid rgba(0,0,0,0.2);
 }
 
-.copyright {
-  padding-top: 5px;
+footer > div {
+  display: inline-block;
 }

@@ -50,28 +50,20 @@ $(document).on('click.nav', '.navbar-collapse.in', function(e) {
   }
 });
 
-TapApp.ProfileRoute = Ember.Route.extend({
-  model: function() {
-    // TODO: can we send { user: 'current' } instead? not yet. you'd need
-    // some features to be added to admit-one.
-    return this.store.find('pour', { user: this.get('session.id') });
-  }
-});
-
 TapApp.FocusInputComponent = Ember.TextField.extend({
   becomeFocused: function() {
     this.$().focus();
   }.on('didInsertElement')
 });
 
-// TODO: replace 0000000000000000 app id below
+// TODO: add &appId=0000000000000000 below
 // Facebook Button
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) { return; }
   js = d.createElement(s);
   js.id = id;
-  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0&appId=0000000000000000';
+  js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 

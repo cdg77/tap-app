@@ -119,24 +119,24 @@ describe('TapApp', function() {
       }.bind(this));
     });
 
-    it.skip('allows user to customize profile', function() {
-      this.fixture = __fixture('user-update');
+    it('allows user to customize profile', function() {
+      var fixture = __fixture('user-update');
+      respondWith(this.server, fixture);
       respondWith(this.server, __fixture('user-existing'));
+      respondWith(this.server, __fixture('pours-by-profile'));
       visit('/editProfile');
-      fillIn('input.displayName', this.fixture.request.json.user.displayName);
-      fillIn('input.bio', this.fixture.request.json.user.bio);
+      fillIn('input.displayName', fixture.request.json.user.displayName);
+      fillIn('input.bio', fixture.request.json.user.bio);
       click('button[type="submit"]');
       andThen(function() {
-        // expect(this.server.requests.length).to.eql(3);
-        expect(this.server.requests[1].method).to.eql(this.fixture.request.method);
-        expect(this.server.requests[1].url).to.eql(this.fixture.request.url);
-        expect(this.server.requests[1].requestHeaders).to.contain(this.fixture.request.headers);
-        console.log(JSON.parse(this.server.requests[1].requestBody));
-        console.log(this.fixture.request.json);
-        // expect(JSON.parse(this.server.requests[1].requestBody)).to.eql(this.fixture.request.json);
+        expect(this.server.requests.length).to.eql(3);
+        expect(this.server.requests[1].method).to.eql(fixture.request.method);
+        expect(this.server.requests[1].url).to.eql(fixture.request.url);
+        expect(this.server.requests[1].requestHeaders).to.contain(fixture.request.headers);
+        expect(JSON.parse(this.server.requests[1].requestBody)).to.eql(fixture.request.json);
         expect(currentRouteName()).to.eql('profile');
-        // expect(currentPath()).to.eql('profile');
-        // expect(currentURL()).to.eql('profile');
+        expect(currentPath()).to.eql('profile');
+        expect(currentURL()).to.eql('/profile');
       }.bind(this));
     });
 
@@ -145,6 +145,7 @@ describe('TapApp', function() {
       beforeEach(function() {
         this.fixture = __fixture('pours-by-profile');
         respondWith(this.server, this.fixture);
+        respondWith(this.server, __fixture('user-existing'));
         visit('/profile');
       });
 
@@ -152,7 +153,9 @@ describe('TapApp', function() {
         expect(find('ul.pours li').length).to.eql(4);
       });
 
-      it.skip('lets the user move to editProfile', function() {
+      it('lets the user move to editProfile', function() {
+        this.fixture = __fixture('user-existing');
+        respondWith(this.server, this.fixture);
         click('button.edit-profile');
         andThen(function() {
           expect(currentRouteName()).to.eql('editProfile');

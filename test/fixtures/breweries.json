@@ -1,0 +1,57 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/breweries/search?q=e",
+    "headers": {
+      "Authorization": "Token 3358c0a6619d430aa1270bafcdf75288"
+    },
+    "json": null
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "names": [
+        "Everybody's Brewing",
+        "Elysian"
+      ]
+    }
+  },
+  "db": {
+    "pours": [{
+      "id": 1,
+      "brewery": "Everybody's Brewing",
+      "beerName": "Lil Sis",
+      "venue": "M Bar",
+      "beerRating": 3,
+      "timeOfPour": 1404931268149
+    }, {
+      "id": 2,
+      "brewery": "Laurelwood Brewery",
+      "beerName": "Green Mammoth",
+      "venue": "Bailey's Taproom",
+      "beerRating": 4,
+      "timeOfPour": 1404931268147
+    }, {
+      "id": 3,
+      "brewery": "Elysian",
+      "beerName": "Immortal IPA",
+      "venue": "Apex",
+      "beerRating": 4,
+      "timeOfPour": 1404931268144
+    }, {
+      "id": 4,
+      "brewery": "Cigar City",
+      "beerName": "Maduro",
+      "venue": "Sellwood Public House",
+      "beerRating": 4,
+      "timeOfPour": 600
+    }, {
+      "id": 5,
+      "brewery": "Elysian",
+      "beerName": "Maduro",
+      "venue": "Sellwood Public House",
+      "beerRating": 5,
+      "timeOfPour": 600
+    }]
+  }
+}
