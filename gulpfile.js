@@ -15,6 +15,23 @@ var SERVER_PORT = process.env.PORT || 9000;
 var LIVERELOAD_PORT = process.env.LIVERELOAD_PORT || 35729;
 var lr = require('tiny-lr')();
 
+var status = {
+  exitCode: 0,
+  errors: [],
+  recordError: function(e) {
+    process.stderr.write(colors.red(e) + '\n\x07');
+    status.exitCode = 1;
+    status.errors.push(e);
+    if (this.emit) {
+      this.emit('end');
+    }
+  }
+};
+
+var plumber = function(options) {
+  return $.plumber(_.extend({ errorHandler: status.recordError }, options));
+};
+
 /*
  * Path reference
  */
@@ -39,7 +56,6 @@ var paths = (function() {
     'src.app.styles.entry': ['app/styles/application.scss'],
     'src.app.styles.vendor': ['app/styles/vendor.scss'],
     'src.app.tests': ['test/app/**/*.js'],
-    'src.server.tests.coverage': ['test/server_coverage.js'],
     'src.app.tests.fixtures': ['test/fixtures/**/*.json'],
     'src.app.tests.helpers': [
       'app/bower_components/ember-mocha-adapter/adapter.js',
@@ -49,6 +65,7 @@ var paths = (function() {
     'src.server.scripts.entry': './server/application.js',
     'src.server.scripts.supporting': ['server/**/*', '!server/**/*.js'],
     'src.server.tests': ['test/server_helper.js', 'test/server/**/*.js'],
+    'src.server.tests.coverage': ['test/server_coverage.js'],
     'src.server.tests.fixtures': ['test/fixtures/**/*.json'],
     'dest.root': '<%= dist %>',
     'dest.app.static': '<%= dist %>/public',
@@ -240,7 +257,7 @@ tasks['.scripts:app'] = function(options) {
       }
     };
     streams.push(gulp.src(paths('src.app.templates', opts))
-      .pipe($.plumber())
+      .pipe(plumber())
       .pipe(emFilter)
       .pipe($.emberEmblem())
       .pipe($.defineModule('plain', moduleOptions))
@@ -254,7 +271,7 @@ tasks['.scripts:app'] = function(options) {
 
   if (opts.scripts) {
     streams.push(gulp.src(paths('src.app.scripts.entry', opts), { read: false })
-      .pipe($.plumber())
+      .pipe(plumber())
       .pipe(browserify()));
   }
 
@@ -292,7 +309,7 @@ tasks['.styles:app'] = function(options) {
   }
 
   var stream = gulp.src(src)
-    .pipe($.plumber())
+    .pipe(plumber())
     .pipe($.sass());
 
   if (distribution) {
@@ -359,6 +376,7 @@ tasks['.test:app'] = function(options) {
   }
 
   return gulp.src(sources)
+    .pipe(plumber())
     .pipe($.karma({
       configFile: 'karma.conf.js',
       preprocessors: preprocessors,
@@ -409,7 +427,7 @@ tasks['.test:server'] = function(options) {
   }
 
   var stream = new OrderedStreams(dependencies)
-    .pipe($.plumber())
+    .pipe(plumber())
     .pipe($.mocha());
 
   if (opts.coverage) {
@@ -563,7 +581,9 @@ gulp.task('test', ['.clean:dev'], function() {
 });
 
 gulp.task('test:coverage', ['.clean:dev'], function() {
-  gulp.start('lint', '.test:app:dev:coverage', '.test:server:dev:coverage');
+  gulp.start('lint', '.test:app:dev:coverage', '.test:server:dev:coverage', function() {
+    process.exit(status.exitCode);
+  });
 });
 
 gulp.task('test:app', ['.clean:dev'], function() {
